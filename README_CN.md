@@ -10,13 +10,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=cpp" height="40" alt="cplusplus logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=cs" height="40" alt="csharp logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=windows" height="40" alt="windows logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=visualstudio" height="40" alt="visualstudio logo"  />
+  <img src="https://skillicons.dev/icons?i=cs,cpp,windows,visualstudio" height="40" alt="tech stack"  />
 </div>
 
 </div>
