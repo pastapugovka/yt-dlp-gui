@@ -83,18 +83,16 @@
 ## سرویس‌های پشتیبانی‌شده
 تمام سایت‌ها و سرویس‌هایی که بومی توسط [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) پشتیبانی می‌شوند، پشتیبانی می‌شوند. فهرست کامل و به‌روز استخراج‌کننده‌ها در مستند [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) موجود است.
 
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=youtube" height="32" alt="youtube"  />
+<div align="center" style="background:#000;padding:12px;border-radius:8px">
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Negative.png" height="32" alt="youtube"  />
   <img width="8" />
-  <img src="https://skillicons.dev/icons?i=twitch" height="32" alt="twitch"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Negative.png" height="32" alt="twitch"  />
   <img width="8" />
-  <img src="https://skillicons.dev/icons?i=instagram" height="32" alt="instagram"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Negative.png" height="32" alt="tiktok"  />
   <img width="8" />
-  <img src="https://skillicons.dev/icons?i=vk" height="32" alt="vk"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Negative.png" height="32" alt="instagram"  />
   <img width="8" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tiktok/tiktok-original.svg" height="32" alt="tiktok"  />
-  <img width="8" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Rutube_icon.svg" height="32" alt="rutube"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Negative.png" height="32" alt="vk"  />
 </div>
 
 > نمونه‌ها: YouTube، Twitch، TikTok، Instagram، Rutube، VK Video، Vimeo و بسیاری دیگر.
