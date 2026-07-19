@@ -17,12 +17,6 @@
   <img src="https://skillicons.dev/icons?i=windows" height="40" alt="windows logo"  />
   <img width="12" />
   <img src="https://skillicons.dev/icons?i=visualstudio" height="40" alt="visualstudio logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=vscode" height="40" alt="vscode logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=git" height="40" alt="git logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=github" height="40" alt="github logo"  />
 </div>
 
 </div>
@@ -85,7 +79,23 @@
 > Примечание: куки хранятся локально без шифрования.
 
 ## Поддерживаемые сервисы
-Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md). Среди них YouTube, Vimeo, Twitch и многие другие.
+Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
+
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=youtube" height="32" alt="youtube"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=twitch" height="32" alt="twitch"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=instagram" height="32" alt="instagram"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=vk" height="32" alt="vk"  />
+  <img width="8" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tiktok/tiktok-original.svg" height="32" alt="tiktok"  />
+  <img width="8" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Rutube_icon.svg" height="32" alt="rutube"  />
+</div>
+
+> Примеры: YouTube, Twitch, TikTok, Instagram, Rutube, VK Видео, Vimeo и многие другие.
 
 ## Сборка из исходников
 Подробная пошаговая инструкция с решением проблем — в [BUILD.md](BUILD.md#ru).

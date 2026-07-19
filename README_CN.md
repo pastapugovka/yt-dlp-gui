@@ -17,12 +17,6 @@
   <img src="https://skillicons.dev/icons?i=windows" height="40" alt="windows logo"  />
   <img width="12" />
   <img src="https://skillicons.dev/icons?i=visualstudio" height="40" alt="visualstudio logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=vscode" height="40" alt="vscode logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=git" height="40" alt="git logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=github" height="40" alt="github logo"  />
 </div>
 
 </div>
@@ -85,7 +79,23 @@
 > 注意：Cookie 以明文形式保存在本地。
 
 ## 支持的服务
-支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。包括 YouTube、Vimeo、Twitch 等。
+支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。
+
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=youtube" height="32" alt="youtube"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=twitch" height="32" alt="twitch"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=instagram" height="32" alt="instagram"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=vk" height="32" alt="vk"  />
+  <img width="8" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tiktok/tiktok-original.svg" height="32" alt="tiktok"  />
+  <img width="8" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Rutube_icon.svg" height="32" alt="rutube"  />
+</div>
+
+> 例如：YouTube、Twitch、TikTok、Instagram、Rutube、VK 视频、Vimeo 等。
 
 ## 从源码构建
 详细的逐步指南和故障排除见 [BUILD.md](BUILD.md#cn)。

@@ -17,12 +17,6 @@
   <img src="https://skillicons.dev/icons?i=windows" height="40" alt="windows logo"  />
   <img width="12" />
   <img src="https://skillicons.dev/icons?i=visualstudio" height="40" alt="visualstudio logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=vscode" height="40" alt="vscode logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=git" height="40" alt="git logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=github" height="40" alt="github logo"  />
 </div>
 
 </div>
@@ -87,7 +81,23 @@
 > توجه: کوکی‌ها به‌صورت محلی و بدون رمزنگاری ذخیره می‌شوند.
 
 ## سرویس‌های پشتیبانی‌شده
-تمام سایت‌ها و سرویس‌هایی که بومی توسط [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) پشتیبانی می‌شوند، پشتیبانی می‌شوند. فهرست کامل و به‌روز استخراج‌کننده‌ها در مستند [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) موجود است. از جمله YouTube، Vimeo، Twitch و بسیاری دیگر.
+تمام سایت‌ها و سرویس‌هایی که بومی توسط [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) پشتیبانی می‌شوند، پشتیبانی می‌شوند. فهرست کامل و به‌روز استخراج‌کننده‌ها در مستند [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) موجود است.
+
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=youtube" height="32" alt="youtube"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=twitch" height="32" alt="twitch"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=instagram" height="32" alt="instagram"  />
+  <img width="8" />
+  <img src="https://skillicons.dev/icons?i=vk" height="32" alt="vk"  />
+  <img width="8" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tiktok/tiktok-original.svg" height="32" alt="tiktok"  />
+  <img width="8" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Rutube_icon.svg" height="32" alt="rutube"  />
+</div>
+
+> نمونه‌ها: YouTube، Twitch، TikTok، Instagram، Rutube، VK Video، Vimeo و بسیاری دیگر.
 
 ## ساخت از منبع
 راهنمای گام‌به‌گام با عیب‌یابی در [BUILD.md](BUILD.md#fa).
