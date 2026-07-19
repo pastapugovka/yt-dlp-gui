@@ -81,7 +81,8 @@ The built-in cookie editor helps access restricted content:
 ## Supported Services
 Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
 
-<div align="center" style="background:#000;padding:12px;border-radius:8px">
+<table align="center" bgcolor="#000"><tr>
+<td style="padding:12px">
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Negative.png" height="32" alt="youtube"  />
   <img width="8" />
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Negative.png" height="32" alt="twitch"  />
@@ -91,7 +92,8 @@ Supports all sites and services natively supported by [yt-dlp](https://github.co
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Negative.png" height="32" alt="instagram"  />
   <img width="8" />
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Negative.png" height="32" alt="vk"  />
-</div>
+</td>
+</tr></table>
 
 > Examples: YouTube, Twitch, TikTok, Instagram, Rutube, VK Video, Vimeo and many more.
 
