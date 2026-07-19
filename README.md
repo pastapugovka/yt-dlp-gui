@@ -82,15 +82,15 @@ The built-in cookie editor helps access restricted content:
 Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
 
 <div align="left">
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Original.svg" height="32" alt="youtube"  />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="32" alt="youtube"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Original.svg" height="32" alt="twitch"  />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="32" alt="twitch"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Original.svg" height="32" alt="tiktok"  />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="32" alt="tiktok"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Original.svg" height="32" alt="instagram"  />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="32" alt="instagram"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="32" alt="vk"  />
 </div>
 
 
