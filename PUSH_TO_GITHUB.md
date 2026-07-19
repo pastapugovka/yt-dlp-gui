@@ -8,7 +8,7 @@
 ```
 YtDlpGui.sln
 YtDlpGui/            (исходники)
-README.md  README_RU.md  README_CN.md  README_FA.md  BUILD.md
+README.md  README_RU.md  README_CN.md  README_HE.md  BUILD.md
 YtDlpGui_TemporaryKey.pfx   (если внутри YtDlpGui/)
 ```
 

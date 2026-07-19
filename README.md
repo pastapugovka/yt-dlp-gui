@@ -4,7 +4,7 @@
 
 **yt-dlp-gui** — the ultimate downloader for yt-dlp-supported content (WinUI 3, C++/WinRT).
 
-English / [Русский](README_RU.md) / [简体中文](README_CN.md) / [فارسی](README_FA.md)
+🇬🇧 English / 🇷🇺 [Русский](README_RU.md) / 🇨🇳 [简体中文](README_CN.md) / 🇮🇱 [עברית](README_HE.md)
 
 [![Version](https://img.shields.io/badge/release-v%201.0.b-green.svg)](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -79,7 +79,7 @@ The built-in cookie editor helps access restricted content:
 > Note: cookies are stored locally without encryption.
 
 ## Supported Services
-Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme), including YouTube, Vimeo, and Twitch. The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
+Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme), including YouTube, Vimeo, Twitch, and TikTok, as well as music services like SoundCloud and Spotify. The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
 
 
 

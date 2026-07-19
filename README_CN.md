@@ -4,7 +4,7 @@
 
 **yt-dlp-gui** — 终极下载器，支持 yt-dlp 兼容的所有内容（WinUI 3，C++/WinRT）。
 
-[English](README.md) / [Русский](README_RU.md) / 简体中文 / [فارسی](README_FA.md)
+🇬🇧 [English](README.md) / 🇷🇺 [Русский](README_RU.md) / 🇨🇳 简体中文 / 🇮🇱 [עברית](README_HE.md)
 
 [![Version](https://img.shields.io/badge/release-v%201.0.b-green.svg)](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -79,7 +79,7 @@
 > 注意：Cookie 以明文形式保存在本地。
 
 ## 支持的服务
-支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务，包括 YouTube、哔哩哔哩（Bilibili）和抖音（Douyin）。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。
+支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务，包括 YouTube、哔哩哔哩（Bilibili）、抖音（Douyin）和 TikTok，以及网易云音乐、QQ 音乐等音乐服务。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。
 
 
 ## 从源码构建

@@ -4,7 +4,7 @@
 
 **yt-dlp-gui** — ультимативный загрузчик поддерживаемого yt-dlp контента (WinUI 3, C++/WinRT).
 
-[English](README.md) / Русский / [简体中文](README_CN.md) / [فارسی](README_FA.md)
+🇬🇧 [English](README.md) / 🇷🇺 Русский / 🇨🇳 [简体中文](README_CN.md) / 🇮🇱 [עברית](README_HE.md)
 
 [![Version](https://img.shields.io/badge/release-v%201.0.b-green.svg)](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -79,7 +79,7 @@
 > Примечание: куки хранятся локально без шифрования.
 
 ## Поддерживаемые сервисы
-Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme), включая YouTube, RuTube и VK Видео. Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
+Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme), включая YouTube, RuTube, VK Видео и TikTok, а также музыкальные сервисы, такие как Яндекс.Музыка и VK Музыка. Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
 
 
 ## Сборка из исходников

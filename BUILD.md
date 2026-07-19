@@ -2,7 +2,7 @@
 
 # yt-dlp-gui — Build Guide / Сборка / 构建指南 / راهنمای ساخت
 
-[English](#english) / [Русский](#русский) / [简体中文](#简体中文) / [فارسی](#فارسی)
+[English](#english) / [Русский](#русский) / [简体中文](#简体中文) / [עברית](#עברית)
 
 </div>
 
@@ -230,75 +230,75 @@ nuget restore YtDlpGui.sln
 | 找不到 `YtDlpGui` 类型 | 头文件尚未生成——重新生成。 |
 
 
-<a id="fa"></a>
+<a id="he"></a>
 
-## فارسی
+## עברית
 
-راهنمای کامل: از Visual Studio تا اجرا. اینترنت برای بازیابی بسته‌های NuGet لازم است.
-مخزن: https://github.com/pastapugovka/yt-dlp-gui · نسخه: [v 1.0.b](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
+מדריך מפורט מ-Visual Studio ועד להרצה. נדרש אינטרנט לשחזור חבילות NuGet.
+מאגר: https://github.com/pastapugovka/yt-dlp-gui · גרסה: [v 1.0.b](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
 
 <details>
-<summary><b>فهرست</b></summary>
+<summary><b>תוכן עניינים</b></summary>
 
-- [۱. نصب Visual Studio](#fa-1)
-- [۲. دریافت منبع](#fa-2)
-- [۳. بازیابی NuGet](#fa-3)
-- [۴. پیکربندی](#fa-4)
-- [۵. ساخت](#fa-5)
-- [۶. اجرا](#fa-6)
-- [۷. تنظیمات](#fa-7)
-- [رفع اشکال](#fa-t)
+- [1. התקנת Visual Studio](#he-1)
+- [2. מקורות](#he-2)
+- [3. שחזור NuGet](#he-3)
+- [4. תצורה](#he-4)
+- [5. בנייה](#he-5)
+- [6. הרצה](#he-6)
+- [7. הגדרה](#he-7)
+- [פתרון תקלות](#he-t)
 
 </details>
 
-### <a id="fa-1"></a>۱. نصب Visual Studio
-۱. [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) را دانلود کنید (نسخه Community کافی است).
-۲. این بارهای کاری را فعال کنید:
-   - **توسعه دسکتاپ با C++**
-   - **توسعه ویندوز با C++** (WinUI 3)
-   - **بستر فراگیر ویندوز** (Windows SDK را فراهم می‌کند)
-۳. در «اجزای مجزا» مطمئن شوید **Windows 10/11 SDK (10.0.26100.0)** انتخاب شده است.
+### <a id="he-1"></a>1. התקנת Visual Studio
+1. הורד את [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (הגרסה Community מספיקה).
+2. הפעל עומסי עבודה:
+   - **Desktop development with C++**
+   - **Windows development with C++** (WinUI 3)
+   - **Universal Windows Platform** (מספק את Windows SDK)
+3. ב"רכיבים בודדים" ודא שנבחר **Windows 10/11 SDK (10.0.26100.0)**.
 
-### <a id="fa-2"></a>۲. دریافت منبع
-مخزن را کلون کنید یا فایل را استخراج کنید. به `YtDlpGui.sln` و پوشه `YtDlpGui/` نیاز دارید.
+### <a id="he-2"></a>2. מקורות
+שכפל את המאגר או חלץ את הארכיון. נדרשים `YtDlpGui.sln` ותיקיית `YtDlpGui/`.
 
 ```powershell
 git clone https://github.com/pastapugovka/yt-dlp-gui.git
 cd yt-dlp-gui
 ```
 
-### <a id="fa-3"></a>۳. بازیابی NuGet
-پروژه از بسته‌های `Microsoft.Windows.CppWinRT 2.0.240405.15` و `Microsoft.WindowsAppSDK 1.5.240802000` استفاده می‌کند. آن‌ها در مخزن نیستند — باید بازیابی شوند.
+### <a id="he-3"></a>3. שחזור NuGet
+הפרויקט משתמש בחבילות `Microsoft.Windows.CppWinRT 2.0.240405.15` ו-`Microsoft.WindowsAppSDK 1.5.240802000`. הן לא נמצאות במאגר — יש לשחזר אותן.
 
-**در Visual Studio:** راه‌حل را باز کنید → *Build → Restore NuGet Packages*.
+**ב-Visual Studio:** פתח את הפתרון → *Build → Restore NuGet Packages*.
 
-**خط فرمان:**
+**שורת פקודה:**
 ```powershell
 nuget restore YtDlpGui.sln
 ```
 
-> ⚠️ "project references NuGet package(s) that are missing" یعنی بازیابی انجام نشده است. بسته‌ها باید در پوشه `packages\` ظاهر شوند.
+> ⚠️ "project references NuGet package(s) that are missing" פירושו שהשחזור לא רץ. החבילות חייבות להופיע בתיקיית `packages\`.
 
-### <a id="fa-4"></a>۴. پیکربندی
-- فایل `YtDlpGui.sln` را باز کنید.
-- پیکربندی: `Release`، پلتفرم: `x64`.
+### <a id="he-4"></a>4. תצורה
+- פתח את `YtDlpGui.sln`.
+- תצורה: `Release`, פלטפורמה: `x64`.
 
-### <a id="fa-5"></a>۵. ساخت
-*Build → Build Solution* (`Ctrl+Shift+B`). در ساخت اول، هدرها از `.idl` تولید می‌شوند — ۱ تا ۳ دقیقه صبر کنید.
+### <a id="he-5"></a>5. בנייה
+*Build → Build Solution* (`Ctrl+Shift+B`). הבנייה הראשונה מייצרת כותרות מ-`.idl` — המתן 1–3 דקות.
 
-> ✅ خروجی: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe` و `YtDlpGui.msix`.
+> ✅ פלט: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe` ו-`YtDlpGui.msix`.
 
-### <a id="fa-6"></a>۶. اجرا
-- `F5` — اجرا از داخل VS.
-- دوبار کلیک روی `.msix` — نصب (در اولین اجرا گواهی `YtDlpGui_TemporaryKey.pfx` را تأیید کنید).
-- نسخه قابل‌حمل: پوشه `AppX\` کنار فایل اجرایی.
+### <a id="he-6"></a>6. הרצה
+- `F5` — הרצה מתוך VS.
+- לחיצה כפולה על `.msix` — התקנה (בפעם הראשונה אשר את `YtDlpGui_TemporaryKey.pfx` ב"רשויות אישורים עם שורש מהימן").
+- נייד: תיקיית `AppX\` לצד קובץ ה-EXE.
 
-### <a id="fa-7"></a>۷. تنظیمات
-در صفحه «تنظیمات»، مسیر `yt-dlp.exe` و `ffmpeg.exe` را مشخص کنید. تنظیمات در `%LocalAppData%\YtDlpGui\config\settings.json` ذخیره می‌شوند.
+### <a id="he-7"></a>7. הגדרה
+בעמוד ההגדרות, הגדר נתיבים ל-`yt-dlp.exe` ול-`ffmpeg.exe`. ההגדרות נשמרות ב-`%LocalAppData%\YtDlpGui\config\settings.json`.
 
-### <a id="fa-t"></a>رفع اشکال
-| خطا | راه‌حل |
-|-----|--------|
-| `MSB4019` (عدم یافتن targets) | بسته‌ها بازیابی نشده‌اند — گام ۳. |
-| `bootstrap failed` هنگام اجرا | Windows App SDK Runtime 1.5 نصب نیست — جداگانه نصب کنید. |
-| نوع `YtDlpGui` یافت نشد | هدرها هنوز تولید نشده‌اند — بازسازی کنید. |
+### <a id="he-t"></a>פתרון תקלות
+| שגיאה | תיקון |
+|-------|-------|
+| `MSB4019` (targets לא נמצאו) | חבילות לא שוחזרו — שלב 3. |
+| `bootstrap failed` בהרצה | Windows App SDK Runtime 1.5 חסר — התקן בנפרד. |
+| הסוג `YtDlpGui` לא נמצא | הכותרות עדיין לא נוצרו — בנה מחדש. |
