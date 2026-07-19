@@ -107,3 +107,4 @@ MIT — free to use and modify. Author: [pastapugovka](https://github.com/pastap
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) — the backbone of this tool
 - [FFmpeg](https://ffmpeg.org/) — for media processing
 - [Windows App SDK](https://learn.microsoft.com/windows/apps/windows-app-sdk/) — the UI framework
+
