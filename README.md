@@ -93,7 +93,7 @@ Supports all sites and services natively supported by [yt-dlp](https://github.co
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
 </div>
 
-> Examples: YouTube, Twitch, TikTok, Instagram, Rutube, VK Video, Vimeo and many more.
+
 
 ## Building from Source
 A detailed step-by-step guide with troubleshooting is in [BUILD.md](BUILD.md#en).

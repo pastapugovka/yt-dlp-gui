@@ -93,7 +93,6 @@
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
 </div>
 
-> 例如：YouTube、Twitch、TikTok、Instagram、Rutube、VK 视频、Vimeo 等。
 
 ## 从源码构建
 详细的逐步指南和故障排除见 [BUILD.md](BUILD.md#cn)。

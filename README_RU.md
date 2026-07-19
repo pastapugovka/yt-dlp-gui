@@ -93,7 +93,6 @@
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
 </div>
 
-> Примеры: YouTube, Twitch, TikTok, Instagram, Rutube, VK Видео, Vimeo и многие другие.
 
 ## Сборка из исходников
 Подробная пошаговая инструкция с решением проблем — в [BUILD.md](BUILD.md#ru).

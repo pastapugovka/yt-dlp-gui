@@ -95,7 +95,6 @@
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
 </div>
 
-> نمونه‌ها: YouTube، Twitch، TikTok، Instagram، Rutube، VK Video، Vimeo و بسیاری دیگر.
 
 ## ساخت از منبع
 راهنمای گام‌به‌گام با عیب‌یابی در [BUILD.md](BUILD.md#fa).
