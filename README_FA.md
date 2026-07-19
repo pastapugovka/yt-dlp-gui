@@ -84,27 +84,29 @@
 تمام سایت‌ها و سرویس‌هایی که بومی توسط [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) پشتیبانی می‌شوند، پشتیبانی می‌شوند. فهرست کامل و به‌روز استخراج‌کننده‌ها در مستند [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) موجود است.
 
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="40" alt="youtube"  />
-  <img width="16" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="40" alt="twitch"  />
-  <img width="16" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="40" alt="tiktok"  />
-  <img width="16" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="40" alt="instagram"  />
-  <img width="16" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Video.svg" height="40" alt="vk video"  />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" width="40" height="40" alt="youtube"  />
+  <img width="14" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" width="40" height="40" alt="twitch"  />
+  <img width="14" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" width="40" height="40" alt="tiktok"  />
+  <img width="14" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" width="40" height="40" alt="instagram"  />
+  <img width="14" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Video.svg" width="40" height="40" alt="vk video"  />
 </div>
 
+<br>
+
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pinterest.svg" height="40" alt="pinterest"  />
-  <img width="16" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Rutube_icon.svg" height="40" alt="rutube"  />
-  <img width="16" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Youtube_Music_icon.svg" height="40" alt="youtube music"  />
-  <img width="16" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Spotify_icon.svg" height="40" alt="spotify"  />
-  <img width="16" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="40" alt="vk"  />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pinterest.svg" width="40" height="40" alt="pinterest"  />
+  <img width="14" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/RuTube_2022.png" width="40" height="40" alt="rutube"  />
+  <img width="14" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Youtube_Music_icon.svg" width="40" height="40" alt="youtube music"  />
+  <img width="14" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Spotify_icon.svg" width="40" height="40" alt="spotify"  />
+  <img width="14" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" width="40" height="40" alt="vk"  />
 </div>
 
 
