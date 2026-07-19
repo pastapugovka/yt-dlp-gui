@@ -79,33 +79,7 @@
 > Примечание: куки хранятся локально без шифрования.
 
 ## Поддерживаемые сервисы
-Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
-
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="40" alt="youtube"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="40" alt="twitch"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="40" alt="tiktok"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="40" alt="instagram"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Video.svg" height="40" alt="vk video"  />
-</div>
-
-<br>
-
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pinterest.svg" height="40" alt="pinterest"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/RuTube_2022.png" height="40" alt="rutube"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Youtube_Music_icon.svg" height="40" alt="youtube music"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Spotify_icon.svg" height="40" alt="spotify"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="40" alt="vk"  />
-</div>
+Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme), включая YouTube, RuTube и VK Видео. Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
 
 
 ## Сборка из исходников

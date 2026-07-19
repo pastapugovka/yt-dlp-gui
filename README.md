@@ -79,33 +79,7 @@ The built-in cookie editor helps access restricted content:
 > Note: cookies are stored locally without encryption.
 
 ## Supported Services
-Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
-
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="40" alt="youtube"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="40" alt="twitch"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="40" alt="tiktok"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="40" alt="instagram"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Video.svg" height="40" alt="vk video"  />
-</div>
-
-<br>
-
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pinterest.svg" height="40" alt="pinterest"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/RuTube_2022.png" height="40" alt="rutube"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Youtube_Music_icon.svg" height="40" alt="youtube music"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Spotify_icon.svg" height="40" alt="spotify"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="40" alt="vk"  />
-</div>
+Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme), including YouTube, Vimeo, and Twitch. The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
 
 
 

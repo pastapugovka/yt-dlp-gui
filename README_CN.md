@@ -79,33 +79,7 @@
 > 注意：Cookie 以明文形式保存在本地。
 
 ## 支持的服务
-支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。
-
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="40" alt="youtube"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="40" alt="twitch"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="40" alt="tiktok"  />
-  <img width="14" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="40" alt="instagram"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Video.svg" height="40" alt="vk video"  />
-</div>
-
-<br>
-
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pinterest.svg" height="40" alt="pinterest"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/RuTube_2022.png" height="40" alt="rutube"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Youtube_Music_icon.svg" height="40" alt="youtube music"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Spotify_icon.svg" height="40" alt="spotify"  />
-  <img width="14" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="40" alt="vk"  />
-</div>
+支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务，包括 YouTube、哔哩哔哩（Bilibili）和抖音（Douyin）。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。
 
 
 ## 从源码构建
