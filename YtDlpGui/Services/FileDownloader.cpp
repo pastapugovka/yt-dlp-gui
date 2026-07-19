@@ -38,6 +38,22 @@ namespace winrt::YtDlpGui::Services
             co_await FileIO().WriteBufferAsync(file, buffer);
             if (callback) callback(true, L"");
         }
+                  {
+            std::error_code ec;
+            std::filesystem::create_directories(std::filesystem::path(destPath).parent_path(), ec);
+
+            HttpClient http;
+            auto response = co_await http.GetAsync(Uri(url));
+            response.EnsureSuccessStatusCode();
+            auto buffer = co_await response.Content().ReadAsBufferAsync();
+            auto folder = co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(
+                std::filesystem::path(destPath).parent_path().wstring());
+            auto file = co_await folder.CreateFileAsync(
+                std::filesystem::path(destPath).filename().wstring(),
+                CreationCollisionOption::ReplaceExisting);
+            co_await FileIO().WriteBufferAsync(file, buffer);
+            if (callback) callback(true, L"");
+        }
         catch (winrt::hresult_error const& ex)
         {
             if (callback) callback(false, std::wstring(ex.message()));
