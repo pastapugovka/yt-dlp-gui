@@ -83,19 +83,17 @@
 ## سرویس‌های پشتیبانی‌شده
 تمام سایت‌ها و سرویس‌هایی که بومی توسط [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) پشتیبانی می‌شوند، پشتیبانی می‌شوند. فهرست کامل و به‌روز استخراج‌کننده‌ها در مستند [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) موجود است.
 
-<table align="center" bgcolor="#000"><tr>
-<td style="padding:12px">
+<div align="left">
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Negative.png" height="32" alt="youtube"  />
-  <img width="8" />
+  <img width="20" />
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Negative.png" height="32" alt="twitch"  />
-  <img width="8" />
+  <img width="20" />
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Negative.png" height="32" alt="tiktok"  />
-  <img width="8" />
+  <img width="20" />
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Negative.png" height="32" alt="instagram"  />
-  <img width="8" />
+  <img width="20" />
   <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Negative.png" height="32" alt="vk"  />
-</td>
-</tr></table>
+</div>
 
 > نمونه‌ها: YouTube، Twitch، TikTok، Instagram، Rutube، VK Video، Vimeo و بسیاری دیگر.
 
