@@ -82,15 +82,15 @@ The built-in cookie editor helps access restricted content:
 Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document.
 
 <div align="left">
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Negative.png" height="32" alt="youtube"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Original.svg" height="32" alt="youtube"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Negative.png" height="32" alt="twitch"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Original.svg" height="32" alt="twitch"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Negative.png" height="32" alt="tiktok"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Original.svg" height="32" alt="tiktok"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Negative.png" height="32" alt="instagram"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Original.svg" height="32" alt="instagram"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Negative.png" height="32" alt="vk"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
 </div>
 
 > Examples: YouTube, Twitch, TikTok, Instagram, Rutube, VK Video, Vimeo and many more.

@@ -82,15 +82,15 @@
 Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
 
 <div align="left">
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Negative.png" height="32" alt="youtube"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=YouTube%2C%20Color=Original.svg" height="32" alt="youtube"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Negative.png" height="32" alt="twitch"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Twitch%2C%20Color=Original.svg" height="32" alt="twitch"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Negative.png" height="32" alt="tiktok"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=TikTok%2C%20Color=Original.svg" height="32" alt="tiktok"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Negative.png" height="32" alt="instagram"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=Instagram%2C%20Color=Original.svg" height="32" alt="instagram"  />
   <img width="20" />
-  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Negative.png" height="32" alt="vk"  />
+  <img src="Social%20Media%20Icons%20%26%20Logos%20(Community)/Platform=VK%2C%20Color=Original.svg" height="32" alt="vk"  />
 </div>
 
 > Примеры: YouTube, Twitch, TikTok, Instagram, Rutube, VK Видео, Vimeo и многие другие.
