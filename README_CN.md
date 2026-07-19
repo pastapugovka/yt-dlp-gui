@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/cn.png" alt="截图" width="100%"/>
+
 <div align="center">
 
 # yt-dlp-gui
@@ -20,8 +22,6 @@
 </div>
 
 </div>
-
-<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/cn.png" alt="截图" width="100%"/>
 
 ## 功能
 - 下载单个视频和整个播放列表

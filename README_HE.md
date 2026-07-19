@@ -1,3 +1,9 @@
+<div dir="rtl">
+
+<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/hb%20il.png" alt="צילום מסך" width="100%"/>
+
+</div>
+
 <div align="center" dir="rtl">
 
 # yt-dlp-gui
@@ -22,8 +28,6 @@
 </div>
 
 <div dir="rtl">
-
-<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/hb%20il.png" alt="צילום מסך" width="100%"/>
 
 ## תכונות
 - הורדת סרטונים בודדים ופלייליסטים

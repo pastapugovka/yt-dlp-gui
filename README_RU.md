@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/ru.png" alt="Скриншот" width="100%"/>
+
 <div align="center">
 
 # yt-dlp-gui
@@ -20,8 +22,6 @@
 </div>
 
 </div>
-
-<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/ru.png" alt="Скриншот" width="100%"/>
 
 ## Возможности
 - Загрузка отдельных видео и плейлистов
