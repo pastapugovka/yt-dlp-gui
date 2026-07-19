@@ -2,7 +2,7 @@
 
 # yt-dlp-gui
 
-**yt-dlp-gui** — 图形界面（WinUI 3，C++/WinRT），基于 [yt-dlp](https://github.com/yt-dlp/yt-dlp)。
+**yt-dlp-gui** — 终极下载器，支持 yt-dlp 兼容的所有内容（WinUI 3，C++/WinRT）。
 
 [English](README.md) / [Русский](README_RU.md) / 简体中文 / [فارسی](README_FA.md)
 
@@ -81,16 +81,28 @@
 ## 支持的服务
 支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。
 
-<div align="left">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="32" alt="youtube"  />
-  <img width="20" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="32" alt="twitch"  />
-  <img width="20" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="32" alt="tiktok"  />
-  <img width="20" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="32" alt="instagram"  />
-  <img width="20" />
-  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="32" alt="vk"  />
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" height="40" alt="youtube"  />
+  <img width="16" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Twitch_logo_2019.svg" height="40" alt="twitch"  />
+  <img width="16" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Tiktok_logo_text.svg" height="40" alt="tiktok"  />
+  <img width="16" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" height="40" alt="instagram"  />
+  <img width="16" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Video.svg" height="40" alt="vk video"  />
+</div>
+
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Pinterest.svg" height="40" alt="pinterest"  />
+  <img width="16" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Rutube_icon.svg" height="40" alt="rutube"  />
+  <img width="16" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Youtube_Music_icon.svg" height="40" alt="youtube music"  />
+  <img width="16" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/Spotify_icon.svg" height="40" alt="spotify"  />
+  <img width="16" />
+  <img src="https://en.wikipedia.org/wiki/Special:FilePath/VK_Compact_Logo_(2021-present).svg" height="40" alt="vk"  />
 </div>
 
 
