@@ -1,0 +1,26 @@
+import "Models/HistoryEntryModel.idl";
+
+namespace YtDlpGui.ViewModels
+{
+    [default_interface]
+    [Windows.UI.Xaml.Data.INotifyPropertyChanged]
+    unsealed runtimeclass HistoryViewModel : Windows.Foundation.Object
+    {
+        HistoryViewModel();
+
+        Windows.Foundation.Collections.IObservableVector<YtDlpGui.Models.HistoryEntry> Entries{ get; };
+        String SearchText{ get; set; };
+        String StatusFilter{ get; set; };
+        String PlatformFilter{ get; set; };
+        Int32 TotalCount{ get; };
+
+        Microsoft.UI.Xaml.Input.ICommand DeleteCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand DeleteAllCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand RefreshCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ExportCsvCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ExportJsonCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand OpenFolderCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ToggleStarCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand RedownloadCommand{ get; };
+    }
+}

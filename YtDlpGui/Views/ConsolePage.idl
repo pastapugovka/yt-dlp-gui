@@ -1,0 +1,10 @@
+namespace YtDlpGui.Views
+{
+    [default_interface]
+    unsealed runtimeclass ConsolePage : Windows.UI.Xaml.Controls.Page
+    {
+        ConsolePage();
+        YtDlpGui.ViewModels.ConsoleViewModel ViewModel{ get; };
+        void InputBox_KeyDown(Windows.Foundation.Object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs args);
+    }
+}

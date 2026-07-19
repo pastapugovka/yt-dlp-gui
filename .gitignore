@@ -1,0 +1,45 @@
+# Build artifacts
+packages/
+.vs/
+out/
+x64/
+ARM64/
+Win32/
+Debug/
+Release/
+
+# Intermediate / generated
+*.obj
+*.pch
+*.ipch
+*.tlog
+*.ilk
+*.pdb
+*.idb
+*.res
+*.lastbuildstate
+*.unsuccessfulbuild
+*.user
+*.suo
+*.vcxproj.user
+
+# Generated WinUI / CppWinRT outputs (regenerated on build)
+YtDlpGui/x64/
+YtDlpGui/ARM64/
+YtDlpGui/Win32/
+YtDlpGui/Generated Files/
+YtDlpGui/Debug/
+YtDlpGui/Release/
+
+# NuGet cache
+.nuget/
+
+# VS config dumps
+vs_config.json
+vs_full.json
+vs2.json
+UpgradeLog.htm
+
+# Local app data / logs (if any)
+*.log
+AppPackages/

@@ -1,0 +1,10 @@
+namespace YtDlpGui.Views
+{
+    [default_interface]
+    unsealed runtimeclass HistoryPage : Windows.UI.Xaml.Controls.Page
+    {
+        HistoryPage();
+        YtDlpGui.ViewModels.HistoryViewModel ViewModel{ get; };
+        void HistoryListView_ItemClick(Windows.Foundation.Object sender, Microsoft.UI.Xaml.Controls.ItemClickEventArgs args);
+    }
+}

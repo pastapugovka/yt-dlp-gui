@@ -1,0 +1,185 @@
+<Page
+    x:Class="YtDlpGui.Views.HistoryPage"
+    x:Name="Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YtDlpGui.Views"
+    xmlns:vm="using:YtDlpGui.ViewModels"
+    xmlns:models="using:YtDlpGui.Models"
+    xmlns:converters="using:YtDlpGui.Converters">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+
+    <Grid Padding="16" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="История загрузок"
+                       Style="{StaticResource TitleTextBlockStyle}"
+                       VerticalAlignment="Center"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                <Button Content="Экспорт CSV"
+                        Command="{x:Bind ViewModel.ExportCsvCommand}"
+                        CornerRadius="4"
+                        Padding="12,6"/>
+                <Button Content="Экспорт JSON"
+                        Command="{x:Bind ViewModel.ExportJsonCommand}"
+                        CornerRadius="4"
+                        Padding="12,6"/>
+                <Button Content="Удалить все"
+                        Command="{x:Bind ViewModel.DeleteAllCommand}"
+                        CornerRadius="4"
+                        Padding="12,6"
+                        Style="{StaticResource DangerButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Filters -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <AutoSuggestBox x:Name="SearchBox"
+                            PlaceholderText="Поиск по названию..."
+                            Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}"
+                            QueryIcon="Find"
+                            CornerRadius="4"
+                            Margin="0,0,8,0"/>
+
+            <ComboBox Grid.Column="1"
+                      x:Name="StatusFilter"
+                      PlaceholderText="Статус"
+                      SelectedValue="{x:Bind ViewModel.StatusFilter, Mode=TwoWay}"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,8,0"
+                      MinWidth="120">
+                <ComboBoxItem Content="Все" IsSelected="True"/>
+                <ComboBoxItem Content="Завершено"/>
+                <ComboBoxItem Content="Ошибка"/>
+                <ComboBoxItem Content="Отменено"/>
+            </ComboBox>
+
+            <ComboBox Grid.Column="2"
+                      x:Name="PlatformFilter"
+                      PlaceholderText="Платформа"
+                      SelectedValue="{x:Bind ViewModel.PlatformFilter, Mode=TwoWay}"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,8,0"
+                      MinWidth="120">
+                <ComboBoxItem Content="Все" IsSelected="True"/>
+                <ComboBoxItem Content="YouTube"/>
+                <ComboBoxItem Content="TikTok"/>
+                <ComboBoxItem Content="Twitch"/>
+                <ComboBoxItem Content="VK"/>
+                <ComboBoxItem Content="X/Twitter"/>
+            </ComboBox>
+
+            <TextBlock Grid.Column="3"
+                       Text="{x:Bind ViewModel.TotalCount, Mode=OneWay}"
+                       Opacity="0.6"
+                       VerticalAlignment="Center"
+                       Margin="0,0,8,0"/>
+            <Button Grid.Column="4"
+                    Content="&#x21BB;"
+                    Command="{x:Bind ViewModel.RefreshCommand}"
+                    CornerRadius="4"
+                    Padding="8,6"
+                    FontSize="16"/>
+        </Grid>
+
+        <!-- History Table -->
+        <Grid Grid.Row="2"
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              CornerRadius="8"
+              Padding="8">
+            <ListView x:Name="HistoryListView"
+                      ItemsSource="{x:Bind ViewModel.Entries}"
+                      SelectionMode="Extended"
+                      IsItemClickEnabled="True"
+                      ItemClick="HistoryListView_ItemClick">
+                <ListView.Header>
+                    <Grid Padding="8,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="*" Opacity="0.5" Width="30"/>
+                        <TextBlock Grid.Column="1" Text="Название" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="2" Text="Платформа" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="3" Text="Дата" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="4" Text="Статус" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="5" Text="Действия" FontWeight="SemiBold" Width="120"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:HistoryEntry">
+                        <Grid Padding="8,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="*" Opacity="{x:Bind IsStarred ? 1.0 : 0.3, Mode=OneWay}" Width="30"/>
+                            <TextBlock Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" MaxLines="1" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Grid.Column="2" Text="{x:Bind Platform, Mode=OneWay}" Opacity="0.7"/>
+                            <TextBlock Grid.Column="3" Text="{x:Bind DateCompleted, Mode=OneWay}" Opacity="0.7"/>
+                            <TextBlock Grid.Column="4" Text="{x:Bind Status, Mode=OneWay}" Opacity="0.7"/>
+                            <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="4">
+                                <Button Content="&#x1F504;" Padding="4,2" FontSize="12"
+                                        ToolTipService.ToolTip="Повторить загрузку"
+                                        Command="{x:Bind Page.ViewModel.RedownloadCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"/>
+                                <Button Content="&#x1F4C1;" Padding="4,2" FontSize="12"
+                                        ToolTipService.ToolTip="Открыть папку"
+                                        Command="{x:Bind Page.ViewModel.OpenFolderCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"/>
+                                <Button Content="&#x2716;" Padding="4,2" FontSize="12"
+                                        ToolTipService.ToolTip="Удалить"
+                                        Command="{x:Bind Page.ViewModel.DeleteCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- Empty State -->
+            <StackPanel x:Name="EmptyStatePanel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Opacity="0.5"
+                        Visibility="Collapsed">
+                <TextBlock Text="История пуста"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Загруженные видео появятся здесь"
+                           Opacity="0.7"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

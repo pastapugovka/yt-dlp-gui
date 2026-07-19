@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="AppTitle" xml:space="preserve">
+    <value>YtDlp GUI</value>
+  </data>
+  <data name="NavDownload" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="NavHistory" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="NavSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="NavConsole" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="UrlPlaceholder" xml:space="preserve">
+    <value>Paste video URL...</value>
+  </data>
+  <data name="Analyze" xml:space="preserve">
+    <value>Analyze</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>DOWNLOAD</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="StatusReady" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="StatusAnalyzing" xml:space="preserve">
+    <value>Analyzing...</value>
+  </data>
+  <data name="StatusDownloading" xml:space="preserve">
+    <value>Downloading...</value>
+  </data>
+  <data name="StatusComplete" xml:space="preserve">
+    <value>Download complete</value>
+  </data>
+  <data name="StatusError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="StatusCancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="VideoCodec" xml:space="preserve">
+    <value>Video Codec</value>
+  </data>
+  <data name="AudioCodec" xml:space="preserve">
+    <value>Audio Codec</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="Bitrate" xml:space="preserve">
+    <value>Bitrate</value>
+  </data>
+  <data name="AudioOnly" xml:space="preserve">
+    <value>Audio only</value>
+  </data>
+  <data name="VideoOnly" xml:space="preserve">
+    <value>Video only</value>
+  </data>
+  <data name="SeparateAudio" xml:space="preserve">
+    <value>Audio as separate file</value>
+  </data>
+  <data name="FileNameTemplate" xml:space="preserve">
+    <value>File name template:</value>
+  </data>
+  <data name="HistoryTitle" xml:space="preserve">
+    <value>Download History</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search by name...</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ConsoleTitle" xml:space="preserve">
+    <value>Built-in Terminal</value>
+  </data>
+  <data name="CookieImport" xml:space="preserve">
+    <value>Import Cookies</value>
+  </data>
+  <data name="PasteFromClipboard" xml:space="preserve">
+    <value>Paste from clipboard</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Save Settings</value>
+  </data>
+  <data name="ClearLog" xml:space="preserve">
+    <value>Clear log</value>
+  </data>
+  <data name="OpenDownloadFolder" xml:space="preserve">
+    <value>Open download folder</value>
+  </data>
+</root>

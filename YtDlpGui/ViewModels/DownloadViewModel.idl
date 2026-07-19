@@ -1,0 +1,56 @@
+import "Windows.UI.Xaml.Data.idl";
+
+namespace YtDlpGui.ViewModels
+{
+    [default_interface]
+    [Windows.UI.Xaml.Data.INotifyPropertyChanged]
+    unsealed runtimeclass DownloadViewModel : Windows.Foundation.Object
+    {
+        DownloadViewModel();
+
+        String Url{ get; set; };
+        String Title{ get; set; };
+        String Uploader{ get; set; };
+        String ThumbnailUrl{ get; set; };
+        String VideoCodec{ get; set; };
+        String AudioCodec{ get; set; };
+        String AudioBitrate{ get; set; };
+        String Resolution{ get; set; };
+        String OutputDir{ get; set; };
+        String FileNameTemplate{ get; set; };
+        String LogText{ get; set; };
+        String AdvancedFlags{ get; set; };
+        String StatusText{ get; set; };
+        String CurrentFileText{ get; };
+
+        Boolean IsAnalyzing{ get; };
+        Boolean IsDownloading{ get; };
+        Boolean HasVideoInfo{ get; };
+        Boolean IsPlaylist{ get; };
+        Boolean AudioOnly{ get; set; };
+        Boolean VideoOnly{ get; set; };
+        Boolean SeparateAudio{ get; set; };
+        Boolean IsIndeterminate{ get; };
+        Double ProgressValue{ get; };
+
+        Object VideoInfoPanel{ get; };
+
+        Windows.Foundation.Collections.IObservableVector<Object> AvailableCodecs{ get; };
+        Windows.Foundation.Collections.IObservableVector<Object> AvailableResolutions{ get; };
+        Windows.Foundation.Collections.IObservableVector<Object> AvailableAudioCodecs{ get; };
+        Windows.Foundation.Collections.IObservableVector<Object> AvailableBitrates{ get; };
+
+        Microsoft.UI.Xaml.Input.ICommand AnalyzeCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand DownloadCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand CancelCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand PasteFromClipboardCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand OpenOutputDirCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ClearLogCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand OpenCookieDialogCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand PasteCookiesCommand{ get; };
+
+        event Windows.Foundation.TypedEventHandler<Object, Object> DownloadStarted;
+        event Windows.Foundation.TypedEventHandler<Object, Boolean> DownloadCompleted;
+        event Windows.Foundation.TypedEventHandler<Object, Object> ShowCookieDialogRequested;
+    }
+}

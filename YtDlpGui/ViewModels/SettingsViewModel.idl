@@ -1,0 +1,37 @@
+import "Windows.UI.Xaml.Data.idl";
+
+namespace YtDlpGui.ViewModels
+{
+    [default_interface]
+    [Windows.UI.Xaml.Data.INotifyPropertyChanged]
+    unsealed runtimeclass SettingsViewModel : Windows.Foundation.Object
+    {
+        SettingsViewModel();
+
+        String YtDlpPath{ get; set; };
+        String FfmpegPath{ get; set; };
+        String ProxyUrl{ get; set; };
+        String UserAgent{ get; set; };
+        String OutputDir{ get; set; };
+        String FileNameTemplate{ get; set; };
+        String Theme{ get; set; };
+        String PreferredLanguage{ get; set; };
+        Int32 MaxConcurrentDownloads{ get; set; };
+        Boolean EmbedThumbnail{ get; set; };
+        Boolean WriteMetadata{ get; set; };
+        Boolean EmbedSubtitles{ get; set; };
+        Boolean AutoUpdate{ get; set; };
+        String StatusMessage{ get; };
+
+        Windows.Foundation.Collections.IObservableVector<Object> AvailableBrowsers{ get; };
+
+        Microsoft.UI.Xaml.Input.ICommand BrowseYtDlpCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand BrowseFfmpegCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand BrowseOutputDirCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand SaveCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ImportCookiesCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ImportCookiesFromBrowserCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand CheckUpdatesCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ClearCookiesCommand{ get; };
+    }
+}

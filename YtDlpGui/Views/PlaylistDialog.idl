@@ -1,0 +1,8 @@
+namespace YtDlpGui.Views
+{
+    [default_interface]
+    unsealed runtimeclass PlaylistDialog : Microsoft.UI.Xaml.Controls.ContentDialog
+    {
+        PlaylistDialog();
+    }
+}

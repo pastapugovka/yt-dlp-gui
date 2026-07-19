@@ -1,0 +1,11 @@
+import "Microsoft.UI.Xaml.Data.idl";
+
+namespace YtDlpGui.Converters
+{
+    [default_interface]
+    [Microsoft.UI.Xaml.Data.IValueConverter]
+    unsealed runtimeclass InverseBoolToVisibilityConverter : Windows.Foundation.Object
+    {
+        InverseBoolToVisibilityConverter();
+    }
+}

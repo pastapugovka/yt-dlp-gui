@@ -1,0 +1,50 @@
+#pragma once
+
+#include <windows.h>
+#include <unknwn.h>
+#include <restrictederrorinfo.h>
+#include <hstring.h>
+#include <shobjidl_core.h>
+#include <shlobj.h>
+#include <shellapi.h>
+
+#include <winrt/base.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Storage.h>
+#include <winrt/Windows.Storage.Pickers.h>
+#include <winrt/Windows.Storage.Streams.h>
+#include <winrt/Windows.System.h>
+#include <winrt/Windows.UI.h>
+#include <winrt/Windows.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Controls.h>
+#include <winrt/Windows.UI.Xaml.Media.h>
+#include <winrt/Windows.UI.Xaml.Navigation.h>
+#include <winrt/Windows.UI.Text.h>
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Data.Xml.Dom.h>
+#include <winrt/Windows.ApplicationModel.DataTransfer.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.AnimatedVisuals.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Data.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+#include <winrt/Microsoft.UI.Xaml.Navigation.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Microsoft.UI.Windowing.h>
+
+#include <microsoft.ui.xaml.window.h>
+
+#include <string>
+#include <vector>
+#include <map>
+#include <memory>
+#include <functional>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <filesystem>
+#include <chrono>
+#include <cmath>

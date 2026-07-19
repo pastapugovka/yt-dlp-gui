@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yt-dlp-gui — Build Guide</title>
+<style>
+  :root{
+    --fg:#1f2328; --muted:#656d76; --bg:#ffffff; --line:#d0d7de;
+    --code:#f6f8fa; --accent:#0969da; --soft:#f6f8fa;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.65;
+  }
+  .top{
+    border-bottom:1px solid var(--line); padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    position:sticky; top:0; background:rgba(255,255,255,.92); backdrop-filter:blur(6px); z-index:10;
+  }
+  .top .brand{font-weight:600; letter-spacing:.2px}
+  .top nav a{
+    margin-left:6px; padding:5px 11px; border:1px solid var(--line); border-radius:6px;
+    color:var(--muted); text-decoration:none; font-size:13px;
+  }
+  .top nav a.active{color:#fff; background:var(--accent); border-color:var(--accent)}
+  .wrap{max-width:820px; margin:0 auto; padding:32px 20px 80px}
+  h1{font-size:28px; margin:0 0 6px; font-weight:650}
+  h2{font-size:19px; margin:38px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line); font-weight:600}
+  h3{font-size:15px; margin:22px 0 6px; font-weight:600}
+  p{margin:8px 0}
+  .muted{color:var(--muted)}
+  ol,ul{margin:8px 0; padding-left:22px}
+  li{margin:5px 0}
+  pre{
+    background:var(--code); border:1px solid var(--line); border-radius:6px;
+    padding:12px 14px; overflow:auto; margin:10px 0; position:relative;
+  }
+  code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; font-size:13px}
+  pre code{color:var(--fg)}
+  .copy{
+    position:absolute; top:6px; right:6px; border:1px solid var(--line); background:#fff;
+    color:var(--muted); border-radius:5px; padding:2px 8px; font-size:11px; cursor:pointer;
+  }
+  .copy:hover{color:var(--accent)}
+  table{border-collapse:collapse; width:100%; margin:12px 0; font-size:14px}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top}
+  th{background:var(--soft); font-weight:600}
+  .note{
+    border-left:3px solid var(--accent); background:var(--soft);
+    padding:10px 14px; border-radius:0 6px 6px 0; margin:12px 0; font-size:14px;
+  }
+  .warn{border-left:3px solid #bf8700; background:#fff8e6; padding:10px 14px; border-radius:0 6px 6px 0; margin:12px 0; font-size:14px}
+  kbd{background:var(--soft); border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:0 5px; font-size:12px}
+  footer{text-align:center; color:var(--muted); font-size:13px; margin-top:50px}
+  .lang{display:none}
+  .lang.active{display:block}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="brand">yt-dlp-gui · Build Guide</div>
+  <nav>
+    <a href="#" data-lang="ru" class="active">RU</a>
+    <a href="#" data-lang="en">EN</a>
+    <a href="#" data-lang="cn">CN</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+<!-- ============ RU ============ -->
+<div class="lang active" data-lang="ru">
+  <h1>Сборка yt-dlp-gui</h1>
+  <p class="muted">Полная инструкция: от Visual Studio до запуска. Требуется интернет для восстановления NuGet-пакетов.</p>
+
+  <div class="note">Кратко: Visual Studio 2022 + C++/WinUI рабочая нагрузка + Windows SDK 10.0.26100.0 → <code>nuget restore</code> → открыть <code>YtDlpGui.sln</code> → <code>Release | x64</code> → Собрать.</div>
+
+  <h2>1. Установка Visual Studio</h2>
+  <ol>
+    <li>Скачайте <a href="https://visualstudio.microsoft.com/ru/downloads/">Visual Studio 2022</a> (Community подойдёт).</li>
+    <li>В установщике включите рабочие нагрузки:
+      <ul>
+        <li><strong>Разработка классических приложений на C++</strong></li>
+        <li><strong>Разработка приложений для Windows с помощью C++</strong> (WinUI 3)</li>
+        <li><strong>Универсальная платформа Windows</strong> (даёт Windows SDK)</li>
+      </ul>
+    </li>
+    <li>В «Отдельные компоненты» убедитесь, что выбран <strong>Windows 10/11 SDK (10.0.26100.0)</strong>.</li>
+  </ol>
+
+  <h2>2. Исходники</h2>
+  <p>Клонируйте репозиторий или распакуйте архив. Вам нужны <code>YtDlpGui.sln</code> и папка <code>YtDlpGui/</code>.</p>
+  <pre><button class="copy" onclick="copy(this)">copy</button><code>git clone https://github.com/ВАШ_ЛОГИН/yt-dlp-gui.git
+cd yt-dlp-gui</code></pre>
+
+  <h2>3. Восстановление NuGet</h2>
+  <p>Проект использует пакеты <code>Microsoft.Windows.CppWinRT 2.0.240405.15</code> и <code>Microsoft.WindowsAppSDK 1.5.240802000</code>. Они не в репозитории — их надо скачать.</p>
+  <p><strong>В Visual Studio:</strong> откройте решение → <em>Сборка → Восстановить пакеты NuGet</em>.</p>
+  <p><strong>Консоль:</strong></p>
+  <pre><button class="copy" onclick="copy(this)">copy</button><code>nuget restore YtDlpGui.sln</code></pre>
+  <div class="warn">Ошибка «project references NuGet package(s) that are missing» означает, что restore не выполнен. Пакеты должны появиться в папке <code>packages\</code>.</div>
+
+  <h2>4. Конфигурация</h2>
+  <ul>
+    <li>Откройте <code>YtDlpGui.sln</code>.</li>
+    <li>Конфигурация: <code>Release</code>, Платформа: <code>x64</code>.</li>
+  </ul>
+
+  <h2>5. Сборка</h2>
+  <p>Сборка → Собрать решение (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>). Первая сборка генерирует заголовки из <code>.idl</code> — подождите 1–3 минуты.</p>
+  <div class="note">Результат: <code>YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe</code> и <code>YtDlpGui.msix</code>.</div>
+
+  <h2>6. Запуск</h2>
+  <ul>
+    <li><kbd>F5</kbd> — запуск из VS.</li>
+    <li>Двойной клик по <code>.msix</code> — установка (при первом разе доверьте сертификат <code>YtDlpGui_TemporaryKey.pfx</code> в «Доверенные корневые центры»).</li>
+    <li>Портативно: папка <code>AppX\</code> рядом с EXE.</li>
+  </ul>
+
+  <h2>7. Настройка</h2>
+  <p>На странице «Настройки» укажите пути к <code>yt-dlp.exe</code> и <code>ffmpeg.exe</code>. Настройки сохраняются в <code>%LocalAppData%\YtDlpGui\config\settings.json</code>.</p>
+
+  <h2>Решение проблем</h2>
+  <table>
+    <tr><th>Ошибка</th><th>Решение</th></tr>
+    <tr><td><code>MSB4019</code> (не найден targets)</td><td>Пакеты не восстановлены — шаг 3.</td></tr>
+    <tr><td><code>bootstrap failed</code> при запуске</td><td>Не установлен Windows App SDK Runtime 1.5 — поставьте отдельно.</td></tr>
+    <tr><td>Тип <code>YtDlpGui</code> не найден</td><td>Заголовки ещё не сгенерированы — пересоберите.</td></tr>
+  </table>
+</div>
+
+<!-- ============ EN ============ -->
+<div class="lang" data-lang="en">
+  <h1>Building yt-dlp-gui</h1>
+  <p class="muted">Full guide: from Visual Studio to running. Internet is required to restore NuGet packages.</p>
+
+  <div class="note">Short: Visual Studio 2022 + C++/WinUI workload + Windows SDK 10.0.26100.0 → <code>nuget restore</code> → open <code>YtDlpGui.sln</code> → <code>Release | x64</code> → Build.</div>
+
+  <h2>1. Install Visual Studio</h2>
+  <ol>
+    <li>Download <a href="https://visualstudio.microsoft.com/downloads/">Visual Studio 2022</a> (Community is fine).</li>
+    <li>Enable workloads:
+      <ul>
+        <li><strong>Desktop development with C++</strong></li>
+        <li><strong>Windows development with C++</strong> (WinUI 3)</li>
+        <li><strong>Universal Windows Platform</strong> (provides Windows SDK)</li>
+      </ul>
+    </li>
+    <li>In "Individual components" ensure <strong>Windows 10/11 SDK (10.0.26100.0)</strong> is selected.</li>
+  </ol>
+
+  <h2>2. Sources</h2>
+  <p>Clone the repo or extract the archive. You need <code>YtDlpGui.sln</code> and the <code>YtDlpGui/</code> folder.</p>
+  <pre><button class="copy" onclick="copy(this)">copy</button><code>git clone https://github.com/YOUR_LOGIN/yt-dlp-gui.git
+cd yt-dlp-gui</code></pre>
+
+  <h2>3. Restore NuGet</h2>
+  <p>The project uses <code>Microsoft.Windows.CppWinRT 2.0.240405.15</code> and <code>Microsoft.WindowsAppSDK 1.5.240802000</code>. They are not in the repo — restore them.</p>
+  <p><strong>In Visual Studio:</strong> open the solution → <em>Build → Restore NuGet Packages</em>.</p>
+  <p><strong>Console:</strong></p>
+  <pre><button class="copy" onclick="copy(this)">copy</button><code>nuget restore YtDlpGui.sln</code></pre>
+  <div class="warn">"project references NuGet package(s) that are missing" means restore did not run. Packages must appear in the <code>packages\</code> folder.</div>
+
+  <h2>4. Configuration</h2>
+  <ul>
+    <li>Open <code>YtDlpGui.sln</code>.</li>
+    <li>Configuration: <code>Release</code>, Platform: <code>x64</code>.</li>
+  </ul>
+
+  <h2>5. Build</h2>
+  <p>Build → Build Solution (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>). The first build generates headers from <code>.idl</code> — wait 1–3 minutes.</p>
+  <div class="note">Output: <code>YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe</code> and <code>YtDlpGui.msix</code>.</div>
+
+  <h2>6. Run</h2>
+  <ul>
+    <li><kbd>F5</kbd> — run from VS.</li>
+    <li>Double-click the <code>.msix</code> — install (trust <code>YtDlpGui_TemporaryKey.pfx</code> in "Trusted Root Certification Authorities" on first run).</li>
+    <li>Portable: the <code>AppX\</code> folder next to the EXE.</li>
+  </ul>
+
+  <h2>7. Setup</h2>
+  <p>On the Settings page, set paths to <code>yt-dlp.exe</code> and <code>ffmpeg.exe</code>. Settings are saved to <code>%LocalAppData%\YtDlpGui\config\settings.json</code>.</p>
+
+  <h2>Troubleshooting</h2>
+  <table>
+    <tr><th>Error</th><th>Fix</th></tr>
+    <tr><td><code>MSB4019</code> (targets not found)</td><td>Packages not restored — step 3.</td></tr>
+    <tr><td><code>bootstrap failed</code> at launch</td><td>Windows App SDK Runtime 1.5 missing — install separately.</td></tr>
+    <tr><td><code>YtDlpGui</code> type not found</td><td>Headers not generated yet — rebuild.</td></tr>
+  </table>
+</div>
+
+<!-- ============ CN ============ -->
+<div class="lang" data-lang="cn">
+  <h1>构建 yt-dlp-gui</h1>
+  <p class="muted">完整指南：从 Visual Studio 到运行。还原 NuGet 包需要联网。</p>
+
+  <div class="note">简版：Visual Studio 2022 + C++/WinUI 工作负载 + Windows SDK 10.0.26100.0 → <code>nuget restore</code> → 打开 <code>YtDlpGui.sln</code> → <code>Release | x64</code> → 生成。</div>
+
+  <h2>1. 安装 Visual Studio</h2>
+  <ol>
+    <li>下载 <a href="https://visualstudio.microsoft.com/downloads/">Visual Studio 2022</a>（Community 即可）。</li>
+    <li>启用工作负载：
+      <ul>
+        <li><strong>使用 C++ 的桌面开发</strong></li>
+        <li><strong>使用 C++ 的 Windows 开发</strong>（WinUI 3）</li>
+        <li><strong>通用 Windows 平台</strong>（提供 Windows SDK）</li>
+      </ul>
+    </li>
+    <li>在“单个组件”中确认已勾选 <strong>Windows 10/11 SDK (10.0.26100.0)</strong>。</li>
+  </ol>
+
+  <h2>2. 获取源码</h2>
+  <p>克隆仓库或解压压缩包。需要 <code>YtDlpGui.sln</code> 和 <code>YtDlpGui/</code> 文件夹。</p>
+  <pre><button class="copy" onclick="copy(this)">copy</button><code>git clone https://github.com/YOUR_LOGIN/yt-dlp-gui.git
+cd yt-dlp-gui</code></pre>
+
+  <h2>3. 还原 NuGet</h2>
+  <p>项目使用 <code>Microsoft.Windows.CppWinRT 2.0.240405.15</code> 和 <code>Microsoft.WindowsAppSDK 1.5.240802000</code>。它们不在仓库中——需要还原。</p>
+  <p><strong>在 Visual Studio 中：</strong> 打开解决方案 → <em>生成 → 还原 NuGet 包</em>。</p>
+  <p><strong>命令行：</strong></p>
+  <pre><button class="copy" onclick="copy(this)">copy</button><code>nuget restore YtDlpGui.sln</code></pre>
+  <div class="warn">“project references NuGet package(s) that are missing” 表示未还原。包必须出现在 <code>packages\</code> 文件夹中。</div>
+
+  <h2>4. 配置</h2>
+  <ul>
+    <li>打开 <code>YtDlpGui.sln</code>。</li>
+    <li>配置：<code>Release</code>，平台：<code>x64</code>。</li>
+  </ul>
+
+  <h2>5. 生成</h2>
+  <p>生成 → 生成解决方案（<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>）。首次生成会从 <code>.idl</code> 生成头文件——请等待 1–3 分钟。</p>
+  <div class="note">输出：<code>YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe</code> 和 <code>YtDlpGui.msix</code>。</div>
+
+  <h2>6. 运行</h2>
+  <ul>
+    <li><kbd>F5</kbd> — 从 VS 运行。</li>
+    <li>双击 <code>.msix</code> — 安装（首次请将 <code>YtDlpGui_TemporaryKey.pfx</code> 信任到“受信任的根证书颁发机构”）。</li>
+    <li>便携版：EXE 旁的 <code>AppX\</code> 文件夹。</li>
+  </ul>
+
+  <h2>7. 设置</h2>
+  <p>在“设置”页中指定 <code>yt-dlp.exe</code> 和 <code>ffmpeg.exe</code> 的路径。设置保存在 <code>%LocalAppData%\YtDlpGui\config\settings.json</code>。</p>
+
+  <h2>故障排除</h2>
+  <table>
+    <tr><th>错误</th><th>解决方法</th></tr>
+    <tr><td><code>MSB4019</code>（找不到 targets）</td><td>未还原包——第 3 步。</td></tr>
+    <tr><td>启动时 <code>bootstrap failed</code></td><td>未安装 Windows App SDK Runtime 1.5——单独安装。</td></tr>
+    <tr><td>找不到 <code>YtDlpGui</code> 类型</td><td>头文件尚未生成——重新生成。</td></tr>
+  </table>
+</div>
+
+<footer>yt-dlp-gui · MIT License</footer>
+</div>
+
+<script>
+  const nav = document.querySelectorAll('.top nav a');
+  const langs = document.querySelectorAll('.lang');
+  function setLang(l){
+    nav.forEach(a=>a.classList.toggle('active', a.dataset.lang===l));
+    langs.forEach(el=>el.classList.toggle('active', el.dataset.lang===l));
+    document.documentElement.lang = l==='cn'?'zh':l;
+    try{ localStorage.setItem('yt-dlp-gui-lang', l); }catch(e){}
+  }
+  nav.forEach(a=>a.addEventListener('click', e=>{ e.preventDefault(); setLang(a.dataset.lang); }));
+  try{
+    const saved = localStorage.getItem('yt-dlp-gui-lang');
+    if(saved) setLang(saved);
+  }catch(e){}
+  function copy(btn){
+    const t = btn.parentElement.innerText.replace('copy','').trim();
+    navigator.clipboard.writeText(t).then(()=>{
+      const o=btn.textContent; btn.textContent='copied';
+      setTimeout(()=>btn.textContent=o,1000);
+    });
+  }
+</script>
+</body>
+</html>

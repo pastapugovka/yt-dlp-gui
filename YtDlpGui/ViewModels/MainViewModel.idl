@@ -1,0 +1,16 @@
+import "Windows.UI.Xaml.Data.idl";
+
+namespace YtDlpGui.ViewModels
+{
+    [default_interface]
+    [Windows.UI.Xaml.Data.INotifyPropertyChanged]
+    unsealed runtimeclass MainViewModel : Windows.Foundation.Object
+    {
+        MainViewModel();
+
+        String AppTitle{ get; };
+        Int32 CurrentTabIndex{ get; set; };
+
+        Microsoft.UI.Xaml.Input.ICommand ShowSettingsCommand{ get; };
+    }
+}
