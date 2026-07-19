@@ -70,10 +70,8 @@
 
 > Примечание: куки хранятся локально без шифрования.
 
-## Поддерживаемые ссылки
-- Одиночные видео: `https://youtube.com/watch?v=...`
-- Плейлисты: `https://youtube.com/playlist?list=...`
-- Короткие ссылки: `https://youtu.be/...`
+## Поддерживаемые сервисы
+Поддерживаются все сайты и сервисы, которые изначально поддерживаются [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). Полный актуальный список поддерживаемых извлекателей доступен в документе [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md). Среди них YouTube, Vimeo, Twitch и многие другие.
 
 ## Сборка из исходников
 Подробная пошаговая инструкция с решением проблем — в [BUILD.md](BUILD.md#ru).

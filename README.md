@@ -70,10 +70,8 @@ The built-in cookie editor helps access restricted content:
 
 > Note: cookies are stored locally without encryption.
 
-## Supported URLs
-- Single videos: `https://youtube.com/watch?v=...`
-- Playlists: `https://youtube.com/playlist?list=...`
-- Short links: `https://youtu.be/...`
+## Supported Services
+Supports all sites and services natively supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme). The full, always up-to-date list of supported extractors is available in the [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) document. Examples include YouTube, Vimeo, Twitch, and many more.
 
 ## Building from Source
 A detailed step-by-step guide with troubleshooting is in [BUILD.md](BUILD.md#en).

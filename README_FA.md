@@ -72,10 +72,8 @@
 
 > توجه: کوکی‌ها به‌صورت محلی و بدون رمزنگاری ذخیره می‌شوند.
 
-## لینک‌های پشتیبانی‌شده
-- ویدیوی تکی: `https://youtube.com/watch?v=...`
-- پلی‌لیست: `https://youtube.com/playlist?list=...`
-- لینک‌های کوتاه: `https://youtu.be/...`
+## سرویس‌های پشتیبانی‌شده
+تمام سایت‌ها و سرویس‌هایی که بومی توسط [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) پشتیبانی می‌شوند، پشتیبانی می‌شوند. فهرست کامل و به‌روز استخراج‌کننده‌ها در مستند [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) موجود است. از جمله YouTube، Vimeo، Twitch و بسیاری دیگر.
 
 ## ساخت از منبع
 راهنمای گام‌به‌گام با عیب‌یابی در [BUILD.md](BUILD.md#fa).

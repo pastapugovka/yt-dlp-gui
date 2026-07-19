@@ -70,10 +70,8 @@
 
 > 注意：Cookie 以明文形式保存在本地。
 
-## 支持的链接
-- 单个视频：`https://youtube.com/watch?v=...`
-- 播放列表：`https://youtube.com/playlist?list=...`
-- 短链接：`https://youtu.be/...`
+## 支持的服务
+支持 [yt-dlp](https://github.com/yt-dlp/yt-dlp#readme) 原生支持的所有网站和服务。完整且最新的提取器列表见 [yt-dlp supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。包括 YouTube、Vimeo、Twitch 等。
 
 ## 从源码构建
 详细的逐步指南和故障排除见 [BUILD.md](BUILD.md#cn)。
