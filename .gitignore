@@ -43,3 +43,6 @@ UpgradeLog.htm
 # Local app data / logs (if any)
 *.log
 AppPackages/
+
+# Local-only assets (not cloned / downloaded)
+Social Media Icons & Logos (Community)/
