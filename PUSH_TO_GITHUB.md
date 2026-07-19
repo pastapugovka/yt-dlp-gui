@@ -35,7 +35,7 @@ git add .
 git commit -m "Initial commit: YtDlpGui WinUI 3 (C++/WinRT)"
 
 git branch -M main
-git remote add origin https://github.com/ВАШ_ЛОГИН/YtDlpGui.git
+git remote add origin https://github.com/pastapugovka/yt-dlp-gui.git
 git push -u origin main
 ```
 
@@ -72,7 +72,7 @@ git push -u origin main
 
 GitHub больше не принимает пароль от аккаунта. Используйте:
 - **Personal Access Token (PAT)**: https://github.com/settings/tokens → создать с правами `repo` → вставить вместо пароля.
-- Или настройте **SSH-ключ**: https://github.com/settings/ssh → добавить публичный ключ, затем `git remote set-url origin git@github.com:ВАШ_ЛОГИН/YtDlpGui.git`.
+- Или настройте **SSH-ключ**: https://github.com/settings/ssh → добавить публичный ключ, затем `git remote set-url origin git@github.com:pastapugovka/yt-dlp-gui.git`.
 
 ## 8. Обновление репозитория после правок
 
