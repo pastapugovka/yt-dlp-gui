@@ -171,6 +171,11 @@ namespace winrt::YtDlpGui::ViewModels
 
         Models::VideoInfo m_currentVideoInfo;
         Models::PlaylistInfo m_currentPlaylistInfo;
+
+        mutable winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable> m_availableCodecs{ nullptr };
+        mutable winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable> m_availableResolutions{ nullptr };
+        mutable winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable> m_availableAudioCodecs{ nullptr };
+        mutable winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable> m_availableBitrates{ nullptr };
     };
 }
 

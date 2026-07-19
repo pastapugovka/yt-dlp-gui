@@ -12,7 +12,7 @@ namespace winrt::YtDlpGui::Models
         Cancelled
     };
 
-    struct HistoryEntry
+    struct HistoryEntryData
     {
         int64_t Id{ 0 };
         winrt::hstring Url;

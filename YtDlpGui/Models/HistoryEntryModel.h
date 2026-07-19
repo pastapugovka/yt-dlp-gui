@@ -65,7 +65,7 @@ namespace winrt::YtDlpGui::Models
         void ErrorMessage(winrt::hstring const& value);
 
     private:
-        void RaisePropertyChanged(std::wstring const& name);
+        void RaisePropertyChanged(hstring_view const& name);
 
         int64_t m_id{ 0 };
         winrt::hstring m_url;

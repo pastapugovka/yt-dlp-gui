@@ -8,13 +8,19 @@ namespace winrt::YtDlpGui::Views::implementation
         InitializeComponent();
         m_viewModel = winrt::make<winrt::YtDlpGui::ViewModels::HistoryViewModel>();
         m_viewModel.Initialize(DispatcherQueue());
-        m_viewModel.PropertyChanged([this](winrt::Windows::Foundation::IInspectable const&,
+        m_propertyChangedToken = m_viewModel.PropertyChanged([this](winrt::Windows::Foundation::IInspectable const&,
                                            winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& e)
         {
             if (e.PropertyName() == L"Entries" || e.PropertyName() == L"TotalCount")
                 UpdateEmptyState();
         });
         UpdateEmptyState();
+    }
+
+    HistoryPage::~HistoryPage()
+    {
+        if (m_viewModel)
+            m_viewModel.PropertyChanged(m_propertyChangedToken);
     }
 
     void HistoryPage::UpdateEmptyState()

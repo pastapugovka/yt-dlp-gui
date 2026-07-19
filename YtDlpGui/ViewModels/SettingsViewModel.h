@@ -70,12 +70,12 @@ namespace winrt::YtDlpGui::ViewModels
         winrt::Microsoft::UI::Xaml::Input::ICommand ClearCookiesCommand() { return m_clearCookiesCommand; }
 
     private:
-        void OnBrowseYtDlp();
-        void OnBrowseFfmpeg();
-        void OnBrowseOutputDir();
+        winrt::Windows::Foundation::IAsyncAction OnBrowseYtDlp();
+        winrt::Windows::Foundation::IAsyncAction OnBrowseFfmpeg();
+        winrt::Windows::Foundation::IAsyncAction OnBrowseOutputDir();
         void OnSave();
-        void OnImportCookies();
-        void OnImportCookiesFromBrowser();
+        winrt::Windows::Foundation::IAsyncAction OnImportCookies();
+        winrt::Windows::Foundation::IAsyncAction OnImportCookiesFromBrowser();
         void OnCheckUpdates();
         void OnClearCookies();
         void ApplyTheme();
@@ -109,6 +109,8 @@ namespace winrt::YtDlpGui::ViewModels
         winrt::Microsoft::UI::Xaml::Input::ICommand m_importCookiesFromBrowserCommand{ nullptr };
         winrt::Microsoft::UI::Xaml::Input::ICommand m_checkUpdatesCommand{ nullptr };
         winrt::Microsoft::UI::Xaml::Input::ICommand m_clearCookiesCommand{ nullptr };
+
+        mutable winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable> m_availableBrowsers{ nullptr };
     };
 }
 

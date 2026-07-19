@@ -30,7 +30,7 @@ namespace winrt::YtDlpGui::Services
         return Models::HistoryStatus::Completed;
     }
 
-    static JsonObject EntryToJson(Models::HistoryEntry const& e)
+    static JsonObject EntryToJson(Models::HistoryEntryData const& e)
     {
         JsonObject obj;
         obj.Insert(L"Id", JsonValue::CreateNumberValue(static_cast<double>(e.Id)));
@@ -53,9 +53,9 @@ namespace winrt::YtDlpGui::Services
         return obj;
     }
 
-    static Models::HistoryEntry JsonToEntry(JsonObject const& obj)
+    static Models::HistoryEntryData JsonToEntry(JsonObject const& obj)
     {
-        Models::HistoryEntry e;
+        Models::HistoryEntryData e;
         if (obj.HasKey(L"Id")) e.Id = static_cast<int64_t>(obj.GetNamedNumber(L"Id"));
         if (obj.HasKey(L"Url")) e.Url = obj.GetNamedString(L"Url");
         if (obj.HasKey(L"Title")) e.Title = obj.GetNamedString(L"Title");
@@ -139,26 +139,30 @@ namespace winrt::YtDlpGui::Services
         }
     }
 
-    void HistoryDatabase::WriteAtomic(const std::wstring& content)
-    {
-        std::error_code ec;
-        std::filesystem::create_directories(std::filesystem::path(m_dbPath).parent_path(), ec);
+void HistoryDatabase::WriteAtomic(const std::wstring& content)
+{
+    std::error_code ec;
+    std::filesystem::create_directories(std::filesystem::path(m_dbPath).parent_path(), ec);
 
-        std::wstring tmpPath = m_dbPath + L".tmp";
+    std::string utf8 = winrt::to_string(content);
+    std::wstring tmpPath = m_dbPath + L".tmp";
+    {
+        std::ofstream out(tmpPath, std::ios::binary | std::ios::trunc);
+        if (!out.is_open())
+            return;
+        out.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
+    }
+    std::filesystem::rename(tmpPath, m_dbPath, ec);
+    if (ec)
+    {
+        std::ofstream out(m_dbPath, std::ios::binary | std::ios::trunc);
+        if (out.is_open())
         {
-            std::wofstream out(tmpPath, std::ios::binary | std::ios::trunc);
-            if (!out.is_open())
-                return;
-            out << content;
-        }
-        std::filesystem::rename(tmpPath, m_dbPath, ec);
-        if (ec)
-        {
-            std::wofstream out(m_dbPath, std::ios::binary | std::ios::trunc);
-            if (out.is_open())
-                out << content;
+            out.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
+            out.close();
         }
     }
+}
 
     void HistoryDatabase::SaveEntries()
     {
@@ -172,17 +176,22 @@ namespace winrt::YtDlpGui::Services
         WriteAtomic(std::wstring(root.Stringify()));
     }
 
-    bool HistoryDatabase::AddEntry(const Models::HistoryEntry& entry)
+    bool HistoryDatabase::AddEntryUnlocked(Models::HistoryEntryData& e)
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        Models::HistoryEntry e = entry;
         e.Id = m_nextId++;
         m_entries.push_back(e);
         SaveEntries();
         return true;
     }
 
-    bool HistoryDatabase::UpdateEntry(const Models::HistoryEntry& entry)
+    bool HistoryDatabase::AddEntry(const Models::HistoryEntryData& entry)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        Models::HistoryEntryData e = entry;
+        return AddEntryUnlocked(e);
+    }
+
+    bool HistoryDatabase::UpdateEntry(const Models::HistoryEntryData& entry)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         for (auto& e : m_entries)
@@ -194,14 +203,15 @@ namespace winrt::YtDlpGui::Services
                 return true;
             }
         }
-        return AddEntry(entry);
+            Models::HistoryEntryData e = entry;
+        return AddEntryUnlocked(e);
     }
 
     bool HistoryDatabase::DeleteEntry(int64_t id)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         auto it = std::find_if(m_entries.begin(), m_entries.end(),
-            [id](Models::HistoryEntry const& e) { return e.Id == id; });
+            [id](Models::HistoryEntryData const& e) { return e.Id == id; });
         if (it != m_entries.end())
         {
             m_entries.erase(it);
@@ -234,16 +244,16 @@ namespace winrt::YtDlpGui::Services
         return false;
     }
 
-    std::vector<Models::HistoryEntry> HistoryDatabase::GetAllEntries()
+    std::vector<Models::HistoryEntryData> HistoryDatabase::GetAllEntries()
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_entries;
     }
 
-    std::vector<Models::HistoryEntry> HistoryDatabase::SearchEntries(const std::wstring& query)
+    std::vector<Models::HistoryEntryData> HistoryDatabase::SearchEntries(const std::wstring& query)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        std::vector<Models::HistoryEntry> result;
+        std::vector<Models::HistoryEntryData> result;
         std::wstring q = query;
         std::transform(q.begin(), q.end(), q.begin(), ::towlower);
         for (auto const& e : m_entries)
@@ -256,11 +266,11 @@ namespace winrt::YtDlpGui::Services
         return result;
     }
 
-    std::vector<Models::HistoryEntry> HistoryDatabase::FilterEntries(const std::wstring& status,
-                                                                       const std::wstring& platform)
+    std::vector<Models::HistoryEntryData> HistoryDatabase::FilterEntries(const std::wstring& status,
+                                                                           const std::wstring& platform)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        std::vector<Models::HistoryEntry> result;
+        std::vector<Models::HistoryEntryData> result;
         for (auto const& e : m_entries)
         {
             if (!status.empty() && status != L"Все" && StatusToString(e.Status) != status)
@@ -274,11 +284,13 @@ namespace winrt::YtDlpGui::Services
 
     int64_t HistoryDatabase::GetEntryCount()
     {
+        std::lock_guard<std::mutex> lock(m_mutex);
         return static_cast<int64_t>(m_entries.size());
     }
 
     bool HistoryDatabase::ExportToCsv(const std::wstring& filePath)
     {
+        std::lock_guard<std::mutex> lock(m_mutex);
         try
         {
             auto csvField = [](const std::wstring& v) -> std::wstring
@@ -302,13 +314,11 @@ namespace winrt::YtDlpGui::Services
                 return escaped;
             };
 
-            std::wofstream out(filePath);
-            if (!out.is_open())
-                return false;
-            out << L"Id,Title,Uploader,Platform,Status,Format,Quality,Duration,FileSize,DateCompleted,Url\n";
+            std::wostringstream lineBuffer;
+            lineBuffer << L"Id,Title,Uploader,Platform,Status,Format,Quality,Duration,FileSize,DateCompleted,Url\n";
             for (auto const& e : m_entries)
             {
-                out << e.Id << L","
+                lineBuffer << e.Id << L","
                     << csvField(e.Title) << L","
                     << csvField(e.Uploader) << L","
                     << csvField(e.Platform) << L","
@@ -320,6 +330,11 @@ namespace winrt::YtDlpGui::Services
                     << csvField(e.DateCompleted) << L","
                     << csvField(e.Url) << L"\n";
             }
+            std::string utf8 = winrt::to_string(lineBuffer.str());
+            std::ofstream out(filePath, std::ios::binary);
+            if (!out.is_open())
+                return false;
+            out.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
             return true;
         }
         catch (...)
@@ -330,6 +345,7 @@ namespace winrt::YtDlpGui::Services
 
     bool HistoryDatabase::ExportToJson(const std::wstring& filePath)
     {
+        std::lock_guard<std::mutex> lock(m_mutex);
         try
         {
             JsonObject root;
@@ -339,10 +355,11 @@ namespace winrt::YtDlpGui::Services
                 arr.Append(EntryToJson(e));
             root.Insert(L"Entries", arr);
             std::wstring content = std::wstring(root.Stringify());
-            std::wofstream out(filePath);
+            std::string utf8 = winrt::to_string(content);
+            std::ofstream out(filePath, std::ios::binary);
             if (!out.is_open())
                 return false;
-            out << content;
+            out.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
             return true;
         }
         catch (...)

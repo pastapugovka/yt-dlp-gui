@@ -24,7 +24,7 @@ namespace winrt::YtDlpGui::ViewModels
             m_propertyChanged.remove(token);
         }
 
-        void RaisePropertyChanged(std::wstring const& propertyName)
+        void RaisePropertyChanged(hstring_view const& propertyName)
         {
             m_propertyChanged(nullptr, Microsoft::UI::Xaml::Data::PropertyChangedEventArgs(propertyName));
         }

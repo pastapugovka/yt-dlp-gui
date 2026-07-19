@@ -59,17 +59,9 @@ namespace winrt::YtDlpGui::Services
     {
         if (m_hThread)
         {
-            WaitForSingleObject(m_hThread, 5000);
+            WaitForSingleObject(m_hThread, INFINITE);
             CloseHandle(m_hThread);
             m_hThread = nullptr;
-        }
-        if (m_state)
-        {
-            if (m_state->hProcess)
-            {
-                CloseHandle(m_state->hProcess);
-                m_state->hProcess = nullptr;
-            }
         }
         m_state = nullptr;
     }
@@ -97,27 +89,11 @@ namespace winrt::YtDlpGui::Services
 
         SECURITY_ATTRIBUTES sa{ sizeof(SECURITY_ATTRIBUTES), nullptr, TRUE };
         HANDLE hStdOutWrite = nullptr, hStdErrWrite = nullptr, hStdInRead = nullptr;
-        CreatePipe(&state->hStdOutRead, &hStdOutWrite, &sa, 0);
-        CreatePipe(&state->hStdErrRead, &hStdErrWrite, &sa, 0);
-        CreatePipe(&hStdInRead, &state->hStdInWrite, &sa, 0);
-        SetHandleInformation(state->hStdOutRead, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(state->hStdErrRead, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(state->hStdInWrite, HANDLE_FLAG_INHERIT, 0);
-
-        std::wstring cmdLine = QuoteArg(command);
-        if (!args.empty())
-            cmdLine += L" " + args;
-
-        PROCESS_INFORMATION pi{};
-        STARTUPINFOW si{ sizeof(STARTUPINFOW) };
-        si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-        si.wShowWindow = SW_HIDE;
-        si.hStdOutput = hStdOutWrite;
-        si.hStdError = hStdErrWrite;
-        si.hStdInput = hStdInRead;
-
-        if (!::CreateProcessW(nullptr, cmdLine.data(), nullptr, nullptr, TRUE,
-                              CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi))
+        bool success = true;
+        success &= CreatePipe(&state->hStdOutRead, &hStdOutWrite, &sa, 0);
+        success &= CreatePipe(&state->hStdErrRead, &hStdErrWrite, &sa, 0);
+        success &= CreatePipe(&hStdInRead, &state->hStdInWrite, &sa, 0);
+        if (!success)
         {
             if (hStdOutWrite) CloseHandle(hStdOutWrite);
             if (hStdErrWrite) CloseHandle(hStdErrWrite);
@@ -125,18 +101,44 @@ namespace winrt::YtDlpGui::Services
             if (state->hStdOutRead) CloseHandle(state->hStdOutRead);
             if (state->hStdErrRead) CloseHandle(state->hStdErrRead);
             if (state->hStdInWrite) CloseHandle(state->hStdInWrite);
+            state->hStdOutRead = nullptr;
+            state->hStdErrRead = nullptr;
+            state->hStdInWrite = nullptr;
             state->Done = true;
             return nullptr;
         }
+        SetHandleInformation(state->hStdOutRead, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(state->hStdErrRead, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(state->hStdInWrite, HANDLE_FLAG_INHERIT, 0);
 
-        state->hProcess = pi.hProcess;
-        CloseHandle(pi.hThread);
-        CloseHandle(hStdOutWrite);
-        CloseHandle(hStdErrWrite);
-        CloseHandle(hStdInRead);
-        CloseHandle(state->hStdInWrite);
-        state->hStdInWrite = nullptr;
-        return state;
+    std::wstring cmdLine = QuoteArg(command);
+    if (!args.empty())
+        cmdLine += L" " + args;
+
+    PROCESS_INFORMATION pi{};
+    STARTUPINFOW si{ sizeof(STARTUPINFOW) };
+    si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = hStdOutWrite;
+    si.hStdError = hStdErrWrite;
+    si.hStdInput = hStdInRead;
+
+    if (!::CreateProcessW(nullptr, cmdLine.data(), nullptr, nullptr, TRUE,
+                          CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi))
+    {
+        if (hStdOutWrite) CloseHandle(hStdOutWrite);
+        if (hStdErrWrite) CloseHandle(hStdErrWrite);
+        if (hStdInRead) CloseHandle(hStdInRead);
+        state->Done = true;
+        return nullptr;
+    }
+
+    state->hProcess = pi.hProcess;
+    CloseHandle(pi.hThread);
+    CloseHandle(hStdOutWrite);
+    CloseHandle(hStdErrWrite);
+    CloseHandle(hStdInRead);
+    return state;
     }
 
     static void DrainPipe(HANDLE hPipe, OutputCallback const& cb)
@@ -168,7 +170,10 @@ namespace winrt::YtDlpGui::Services
 
         WaitForSingleObject(state->hProcess, INFINITE);
         DWORD exitCode;
-        GetExitCodeProcess(state->hProcess, &exitCode);
+        if (!GetExitCodeProcess(state->hProcess, &exitCode))
+        {
+            exitCode = static_cast<DWORD>(-1);
+        }
         result.ExitCode = static_cast<int>(exitCode);
 
         state->Done = true;
@@ -191,6 +196,7 @@ namespace winrt::YtDlpGui::Services
         state->OnComplete = onComplete;
         m_state = state;
 
+        auto param = new std::shared_ptr<RunState>(state);
         m_hThread = CreateThread(nullptr, 0,
             [](LPVOID param) -> DWORD
             {
@@ -212,7 +218,14 @@ namespace winrt::YtDlpGui::Services
                     state->OnComplete(static_cast<int>(exitCode));
                 return 0;
             },
-            new std::shared_ptr<RunState>(state), 0, nullptr);
+            param, 0, nullptr);
+
+        if (!m_hThread)
+        {
+            delete param;
+            state->Done = true;
+            if (onComplete) onComplete(-1);
+        }
     }
 
     void ProcessRunner::SendInput(const std::string& input)

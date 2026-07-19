@@ -13,7 +13,7 @@ namespace winrt::YtDlpGui::Models
         m_propertyChanged.remove(token);
     }
 
-    void HistoryEntry::RaisePropertyChanged(std::wstring const& name)
+    void HistoryEntry::RaisePropertyChanged(hstring_view const& name)
     {
         m_propertyChanged(nullptr, Windows::UI::Xaml::Data::PropertyChangedEventArgs(name));
     }

@@ -65,11 +65,12 @@ namespace winrt::YtDlpGui::ViewModels
         auto stopCmd = m_stopCommand.as<RelayCommand>();
         stopCmd->RaiseCanExecuteChanged();
 
-        m_runner->SetOutputCallback([this](const std::string& line)
+        auto strong = get_strong();
+        m_runner->SetOutputCallback([strong](const std::string& line)
         {
-            RunOnUI([this, line]()
+            strong->RunOnUI([strong, line]()
             {
-                AppendOutput(winrt::to_hstring(line) + L"\n", 0);
+                strong->AppendOutput(winrt::to_hstring(line) + L"\n", 0);
             });
         });
 
@@ -83,19 +84,19 @@ namespace winrt::YtDlpGui::ViewModels
             exeName = cmd.substr(0, spacePos);
 
         m_runner->RunAsync(exeName, args,
-            [this](int exitCode)
+            [strong](int exitCode)
             {
-                RunOnUI([this, exitCode]()
+                strong->RunOnUI([strong, exitCode]()
                 {
-                    m_isRunning = false;
-                    RaisePropertyChanged(L"IsRunning");
-                    auto stopCmd = m_stopCommand.as<RelayCommand>();
+                    strong->m_isRunning = false;
+                    strong->RaisePropertyChanged(L"IsRunning");
+                    auto stopCmd = strong->m_stopCommand.as<RelayCommand>();
                     stopCmd->RaiseCanExecuteChanged();
 
                     if (exitCode == 0)
-                        AppendOutput(L"\n[OK] Команда выполнена успешно\n\n", 1);
+                        strong->AppendOutput(L"\n[OK] Команда выполнена успешно\n\n", 1);
                     else
-                        AppendOutput(L"\n[ERR] Код возврата: " + std::to_wstring(exitCode) + L"\n\n", 2);
+                        strong->AppendOutput(L"\n[ERR] Код возврата: " + std::to_wstring(exitCode) + L"\n\n", 2);
                 });
             });
 
@@ -112,8 +113,6 @@ namespace winrt::YtDlpGui::ViewModels
     {
         if (m_runner)
             m_runner->Cancel();
-        m_isRunning = false;
-        RaisePropertyChanged(L"IsRunning");
         AppendOutput(L"\n[!] Процесс остановлен\n\n", 2);
     }
 

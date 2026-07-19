@@ -50,7 +50,6 @@ namespace winrt::YtDlpGui::Services
 
     private:
         std::wstring GetExecutablePath();
-        std::vector<std::wstring> SplitArgs(const std::wstring& args);
 
         std::wstring m_ytdlpPath{ L"yt-dlp.exe" };
         std::wstring m_ffmpegPath{ L"ffmpeg.exe" };

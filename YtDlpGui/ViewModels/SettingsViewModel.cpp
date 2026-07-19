@@ -101,7 +101,16 @@ namespace winrt::YtDlpGui::ViewModels
             else
                 app.RequestedTheme(winrt::Microsoft::UI::Xaml::ElementTheme::Default);
         }
-        catch (...) {}
+        catch (winrt::hresult_error const& ex)
+        {
+            m_statusMessage = L"Ошибка смены темы: " + std::wstring(ex.message());
+            RaisePropertyChanged(L"StatusMessage");
+        }
+        catch (...)
+        {
+            m_statusMessage = L"Ошибка смены темы";
+            RaisePropertyChanged(L"StatusMessage");
+        }
     }
 
     void SettingsViewModel::PreferredLanguage(winrt::hstring const& value)
@@ -161,13 +170,17 @@ namespace winrt::YtDlpGui::ViewModels
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable>
     SettingsViewModel::AvailableBrowsers() const
     {
+        if (m_availableBrowsers)
+            return m_availableBrowsers;
+
         auto vec = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
         vec.Append(winrt::box_value(L"Chrome"));
         vec.Append(winrt::box_value(L"Edge"));
         vec.Append(winrt::box_value(L"Firefox"));
         vec.Append(winrt::box_value(L"Opera"));
         vec.Append(winrt::box_value(L"Opera GX"));
-        return vec;
+        m_availableBrowsers = vec;
+        return m_availableBrowsers;
     }
 
     void SettingsViewModel::LoadSettings()
@@ -187,7 +200,19 @@ namespace winrt::YtDlpGui::ViewModels
         m_embedSubtitles = svc->GetBool(L"EmbedSubtitles");
         m_autoUpdate = svc->GetBool(L"AutoUpdate");
 
-        RaisePropertyChanged(L"");
+        RaisePropertyChanged(L"YtDlpPath");
+        RaisePropertyChanged(L"FfmpegPath");
+        RaisePropertyChanged(L"OutputDir");
+        RaisePropertyChanged(L"FileNameTemplate");
+        RaisePropertyChanged(L"ProxyUrl");
+        RaisePropertyChanged(L"UserAgent");
+        RaisePropertyChanged(L"Theme");
+        RaisePropertyChanged(L"PreferredLanguage");
+        RaisePropertyChanged(L"MaxConcurrentDownloads");
+        RaisePropertyChanged(L"EmbedThumbnail");
+        RaisePropertyChanged(L"WriteMetadata");
+        RaisePropertyChanged(L"EmbedSubtitles");
+        RaisePropertyChanged(L"AutoUpdate");
     }
 
     void SettingsViewModel::ApplySettings()
@@ -209,7 +234,7 @@ namespace winrt::YtDlpGui::ViewModels
         svc->Save();
     }
 
-    void SettingsViewModel::OnBrowseYtDlp()
+    winrt::Windows::Foundation::IAsyncAction SettingsViewModel::OnBrowseYtDlp()
     {
         auto picker = winrt::Windows::Storage::Pickers::FileOpenPicker();
         picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::ComputerFolder);
@@ -220,7 +245,7 @@ namespace winrt::YtDlpGui::ViewModels
             if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
                 init.Initialize(hwnd);
         }
-        auto file = picker.PickSingleFileAsync().get();
+        auto file = co_await picker.PickSingleFileAsync();
         if (file)
         {
             YtDlpPath(file.Path());
@@ -230,7 +255,7 @@ namespace winrt::YtDlpGui::ViewModels
         }
     }
 
-    void SettingsViewModel::OnBrowseFfmpeg()
+    winrt::Windows::Foundation::IAsyncAction SettingsViewModel::OnBrowseFfmpeg()
     {
         auto picker = winrt::Windows::Storage::Pickers::FileOpenPicker();
         picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::ComputerFolder);
@@ -241,7 +266,7 @@ namespace winrt::YtDlpGui::ViewModels
             if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
                 init.Initialize(hwnd);
         }
-        auto file = picker.PickSingleFileAsync().get();
+        auto file = co_await picker.PickSingleFileAsync();
         if (file)
         {
             FfmpegPath(file.Path());
@@ -251,7 +276,7 @@ namespace winrt::YtDlpGui::ViewModels
         }
     }
 
-    void SettingsViewModel::OnBrowseOutputDir()
+    winrt::Windows::Foundation::IAsyncAction SettingsViewModel::OnBrowseOutputDir()
     {
         auto picker = winrt::Windows::Storage::Pickers::FolderPicker();
         picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::Downloads);
@@ -261,7 +286,7 @@ namespace winrt::YtDlpGui::ViewModels
             if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
                 init.Initialize(hwnd);
         }
-        auto folder = picker.PickSingleFolderAsync().get();
+        auto folder = co_await picker.PickSingleFolderAsync();
         if (folder)
         {
             OutputDir(folder.Path());
@@ -278,7 +303,7 @@ namespace winrt::YtDlpGui::ViewModels
         RaisePropertyChanged(L"StatusMessage");
     }
 
-    void SettingsViewModel::OnImportCookies()
+    winrt::Windows::Foundation::IAsyncAction SettingsViewModel::OnImportCookies()
     {
         auto picker = winrt::Windows::Storage::Pickers::FileOpenPicker();
         picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
@@ -291,18 +316,19 @@ namespace winrt::YtDlpGui::ViewModels
             if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
                 init.Initialize(hwnd);
         }
-        auto file = picker.PickSingleFileAsync().get();
+        auto file = co_await picker.PickSingleFileAsync();
         if (!file)
-            return;
+            co_return;
 
         bool ok = false;
         auto path = std::wstring(file.Path());
-        std::wifstream in(path);
+        std::ifstream in(path, std::ios::binary);
         if (in.is_open())
         {
-            std::wstringstream buf;
+            std::stringstream buf;
             buf << in.rdbuf();
-            std::wstring content = buf.str();
+            std::string utf8 = buf.str();
+            std::wstring content = winrt::to_hstring(utf8);
             if (content.find(L'{') != std::wstring::npos &&
                 content.find(L"\"cookies\"") != std::wstring::npos)
                 ok = m_cookieService->ImportFromFile(path, Services::CookieService::CookieFormat::JSON);
@@ -321,7 +347,7 @@ namespace winrt::YtDlpGui::ViewModels
         RaisePropertyChanged(L"StatusMessage");
     }
 
-    void SettingsViewModel::OnImportCookiesFromBrowser()
+    winrt::Windows::Foundation::IAsyncAction SettingsViewModel::OnImportCookiesFromBrowser()
     {
         auto picker = winrt::Windows::Storage::Pickers::FileOpenPicker();
         picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::ComputerFolder);
@@ -332,7 +358,7 @@ namespace winrt::YtDlpGui::ViewModels
             if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
                 init.Initialize(hwnd);
         }
-        auto file = picker.PickSingleFileAsync().get();
+        auto file = co_await picker.PickSingleFileAsync();
         if (file)
         {
             bool ok = m_cookieService->ImportFromFile(
@@ -345,15 +371,15 @@ namespace winrt::YtDlpGui::ViewModels
     void SettingsViewModel::OnCheckUpdates()
     {
         m_ytdlpService->SetYtDlpPath(std::wstring(m_ytDlpPath));
-        auto self = get_strong();
-        m_ytdlpService->SetLogCallback([this, self](const std::string& line, int)
+        auto strong = get_strong();
+        m_ytdlpService->SetLogCallback([strong](const std::string& line, int)
         {
-            RunOnUI([this, line]()
+            strong->RunOnUI([strong, line]()
             {
                 std::wstring msg = L"Обновление: " + winrt::to_hstring(line);
                 if (msg.size() > 200) msg = msg.substr(0, 200);
-                m_statusMessage = msg;
-                RaisePropertyChanged(L"StatusMessage");
+                strong->m_statusMessage = msg;
+                strong->RaisePropertyChanged(L"StatusMessage");
             });
         });
         m_ytdlpService->CheckForUpdates();

@@ -18,7 +18,9 @@ namespace winrt::YtDlpGui::Services
     std::wstring YtDlpService::GetExecutablePath()
     {
         wchar_t exePath[MAX_PATH];
-        GetModuleFileNameW(nullptr, exePath, MAX_PATH);
+        DWORD len = GetModuleFileNameW(nullptr, exePath, MAX_PATH);
+        if (len == 0 || len >= MAX_PATH)
+            return L".\\";
         std::wstring path(exePath);
         auto pos = path.find_last_of(L"\\");
         if (pos != std::wstring::npos)
@@ -97,7 +99,12 @@ namespace winrt::YtDlpGui::Services
         if (start > 0 || end > 0)
         {
             std::wostringstream range;
-            range << start << L"-" << end;
+            if (start > 0 && end > 0)
+                range << start << L"-" << end;
+            else if (start > 0)
+                range << start << L"-";
+            else if (end > 0)
+                range << L"1-" << end;
             args += L" --playlist-items " + ProcessRunner::QuoteArg(range.str());
         }
 
@@ -136,7 +143,7 @@ namespace winrt::YtDlpGui::Services
             if (audioCodec != L"best")
                 fmt << L"[acodec~=\"" << audioCodec << L"\"]";
             if (!audioBitrate.empty())
-                fmt << L"[abest~=" << audioBitrate << L"]";
+                fmt << L"[abr~=" << audioBitrate << L"]";
         }
         else if (videoOnly)
         {
@@ -227,23 +234,22 @@ namespace winrt::YtDlpGui::Services
             info.JsonData = winrt::to_hstring(json);
 
             std::string platform;
-            if (json.find("youtube.com") != std::string::npos ||
-                json.find("youtu.be") != std::string::npos)
-                platform = "YouTube";
-            else if (json.find("tiktok.com") != std::string::npos)
-                platform = "TikTok";
-            else if (json.find("twitch.tv") != std::string::npos)
-                platform = "Twitch";
-            else if (json.find("twitter.com") != std::string::npos ||
-                     json.find("x.com") != std::string::npos)
-                platform = "X/Twitter";
-            else if (json.find("instagram.com") != std::string::npos)
-                platform = "Instagram";
-            else if (json.find("vk.com") != std::string::npos ||
-                     json.find("vkvideo.ru") != std::string::npos)
-                platform = "VK";
+            if (jsonObj.HasKey(L"extractor_key"))
+            {
+                auto extractor = winrt::to_string(jsonObj.GetNamedString(L"extractor_key"));
+                if (extractor == "Youtube") platform = "YouTube";
+                else if (extractor == "TikTok") platform = "TikTok";
+                else if (extractor == "Twitch") platform = "Twitch";
+                else if (extractor == "Twitter") platform = "X/Twitter";
+                else if (extractor == "Instagram") platform = "Instagram";
+                else if (extractor == "VK") platform = "VK";
+                else if (extractor == "BiliBili") platform = "Bilibili";
+                else platform = extractor;
+            }
             else
+            {
                 platform = "Other";
+            }
             info.Platform = winrt::to_hstring(platform);
 
             if (jsonObj.HasKey(L"formats"))
@@ -331,38 +337,5 @@ namespace winrt::YtDlpGui::Services
         });
 
         m_runner->RunAsync(m_ytdlpPath, L"-U", nullptr);
-    }
-
-    std::vector<std::wstring> YtDlpService::SplitArgs(const std::wstring& args)
-    {
-        std::vector<std::wstring> result;
-        std::wistringstream stream(args);
-        std::wstring token;
-        bool inQuotes = false;
-        std::wstring current;
-
-        for (wchar_t ch : args)
-        {
-            if (ch == L'"')
-            {
-                inQuotes = !inQuotes;
-            }
-            else if (ch == L' ' && !inQuotes)
-            {
-                if (!current.empty())
-                {
-                    result.push_back(current);
-                    current.clear();
-                }
-            }
-            else
-            {
-                current += ch;
-            }
-        }
-        if (!current.empty())
-            result.push_back(current);
-
-        return result;
     }
 }

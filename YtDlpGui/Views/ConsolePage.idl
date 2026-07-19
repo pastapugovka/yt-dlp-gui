@@ -1,7 +1,7 @@
 namespace YtDlpGui.Views
 {
     [default_interface]
-    unsealed runtimeclass ConsolePage : Windows.UI.Xaml.Controls.Page
+    unsealed runtimeclass ConsolePage : Microsoft.UI.Xaml.Controls.Page
     {
         ConsolePage();
         YtDlpGui.ViewModels.ConsoleViewModel ViewModel{ get; };

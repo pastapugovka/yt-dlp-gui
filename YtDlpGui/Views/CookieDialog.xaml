@@ -42,12 +42,6 @@
                 <ComboBoxItem Content="Opera"/>
                 <ComboBoxItem Content="Opera GX"/>
             </ComboBox>
-            <Button Content="Импортировать"
-                    x:Name="ImportBrowserBtn"
-                    Click="ImportBrowserBtn_Click"
-                    Style="{StaticResource AccentButtonStyle}"
-                    CornerRadius="4"
-                    Padding="12,8"/>
         </StackPanel>
 
         <!-- Manual Input -->

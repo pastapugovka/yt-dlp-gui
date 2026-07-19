@@ -84,6 +84,14 @@ namespace winrt::YtDlpGui::implementation
             else
                 app.RequestedTheme(winrt::Microsoft::UI::Xaml::ElementTheme::Default);
         }
-        catch (...) {}
+        catch (winrt::hresult_error const& ex)
+        {
+            ::OutputDebugStringW((L"ApplyTheme failed: " + std::wstring(ex.message()) + L"\n").c_str());
+        }
+        catch (std::exception const& ex)
+        {
+            auto wmsg = std::wstring(ex.what(), ex.what() + strlen(ex.what()));
+            ::OutputDebugStringW((L"ApplyTheme failed: " + wmsg + L"\n").c_str());
+        }
     }
 }

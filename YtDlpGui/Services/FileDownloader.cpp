@@ -30,8 +30,8 @@ namespace winrt::YtDlpGui::Services
             auto response = co_await http.GetAsync(Uri(url));
             response.EnsureSuccessStatusCode();
             auto buffer = co_await response.Content().ReadAsBufferAsync();
-            auto folder = Windows::Storage::StorageFolder::GetFolderFromPathAsync(
-                std::filesystem::path(destPath).parent_path().wstring()).get();
+            auto folder = co_await Windows::Storage::StorageFolder::GetFolderFromPathAsync(
+                std::filesystem::path(destPath).parent_path().wstring());
             auto file = co_await folder.CreateFileAsync(
                 std::filesystem::path(destPath).filename().wstring(),
                 CreationCollisionOption::ReplaceExisting);
@@ -53,14 +53,15 @@ namespace winrt::YtDlpGui::Services
         try
         {
             std::error_code ec;
-            std::filesystem::create_directories(std::filesystem::path(destPath).parent_path(), ec);
+            std::filesystem::path parentPath = std::filesystem::path(destPath).parent_path();
+            std::filesystem::create_directories(parentPath, ec);
 
             HttpClient http;
             auto response = http.GetAsync(Uri(url)).get();
             response.EnsureSuccessStatusCode();
             auto buffer = response.Content().ReadAsBufferAsync().get();
             auto folder = Windows::Storage::StorageFolder::GetFolderFromPathAsync(
-                std::filesystem::path(destPath).parent_path().wstring()).get();
+                parentPath.wstring()).get();
             auto file = folder.CreateFileAsync(
                 std::filesystem::path(destPath).filename().wstring(),
                 CreationCollisionOption::ReplaceExisting).get();

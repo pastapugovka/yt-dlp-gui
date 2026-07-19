@@ -19,8 +19,6 @@ namespace winrt::YtDlpGui::Services
     using OutputCallback = std::function<void(const std::string& line)>;
     using ProgressCallback = std::function<void(double percent, const std::string& speed, const std::string& eta)>;
 
-    static std::wstring QuoteArg(const std::wstring& arg);
-
     struct RunState
     {
         HANDLE hProcess{ nullptr };
@@ -32,6 +30,18 @@ namespace winrt::YtDlpGui::Services
         OutputCallback OutputCallback;
         ProgressCallback ProgressCallback;
         std::function<void(int)> OnComplete;
+
+        ~RunState()
+        {
+            if (hProcess) { CloseHandle(hProcess); hProcess = nullptr; }
+            if (hStdOutRead) { CloseHandle(hStdOutRead); hStdOutRead = nullptr; }
+            if (hStdErrRead) { CloseHandle(hStdErrRead); hStdErrRead = nullptr; }
+            if (hStdInWrite) { CloseHandle(hStdInWrite); hStdInWrite = nullptr; }
+        }
+
+        RunState(const RunState&) = delete;
+        RunState& operator=(const RunState&) = delete;
+        RunState() = default;
     };
 
     class ProcessRunner
@@ -39,6 +49,8 @@ namespace winrt::YtDlpGui::Services
     public:
         ProcessRunner();
         ~ProcessRunner();
+
+        static std::wstring QuoteArg(const std::wstring& arg);
 
         bool IsRunning() const { return m_state && !m_state->Done; }
         void Cancel();

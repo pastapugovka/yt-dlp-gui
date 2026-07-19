@@ -2,7 +2,7 @@
 
 # yt-dlp-gui — Build Guide / Сборка / 构建指南 / מדריך בנייה
 
-[English](#english) / [Русский](#русский) / [简体中文](#简体中文) / [עברית](#עברית)
+[English](#en) / [Русский](#ru) / [简体中文](#cn) / [עברית](#he)
 
 </div>
 
@@ -31,10 +31,8 @@ Repository: https://github.com/pastapugovka/yt-dlp-gui · Release: [v 1.0.b](htt
 
 ### <a id="en-1"></a>1. Install Visual Studio
 1. Download [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (Community is fine).
-2. Enable workloads:
-   - **Desktop development with C++**
-   - **Windows development with C++** (WinUI 3)
-   - **Universal Windows Platform** (provides Windows SDK)
+2. Enable workload:
+   - **Desktop development with C++** ("Разработка классических приложений на C++")
 3. In "Individual components" ensure **Windows 10/11 SDK (10.0.26100.0)** is selected.
 
 ### <a id="en-2"></a>2. Sources
@@ -64,12 +62,11 @@ nuget restore YtDlpGui.sln
 ### <a id="en-5"></a>5. Build
 *Build → Build Solution* (`Ctrl+Shift+B`). The first build generates headers from `.idl` — wait 1–3 minutes.
 
-> ✅ Output: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe` and `YtDlpGui.msix`.
+> ✅ Output: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe`.
 
 ### <a id="en-6"></a>6. Run
 - `F5` — run from VS.
-- Double-click the `.msix` — install (trust `YtDlpGui_TemporaryKey.pfx` in "Trusted Root Certification Authorities" on first run).
-- Portable: the `AppX\` folder next to the EXE.
+- Or run `YtDlpGui.exe` directly from the output folder — no installation needed.
 
 ### <a id="en-7"></a>7. Setup
 On the Settings page, set paths to `yt-dlp.exe` and `ffmpeg.exe`. Settings are saved to `%LocalAppData%\YtDlpGui\config\settings.json`.
@@ -77,7 +74,8 @@ On the Settings page, set paths to `yt-dlp.exe` and `ffmpeg.exe`. Settings are s
 ### <a id="en-t"></a>Troubleshooting
 | Error | Fix |
 |-------|-----|
-| `MSB4019` (targets not found) | Packages not restored — step 3. |
+| `MSB4019` (targets not found) | Packages not restored — step 3. If NuGet restores to root folder, delete `packages/` and restore again. The `NuGet.Config` should ensure correct path. |
+| `Package.appxmanifest already exists in filter` | This file was deleted — remove any remaining references from `.vcxproj`. |
 | `bootstrap failed` at launch | Windows App SDK Runtime 1.5 missing — install separately. |
 | `YtDlpGui` type not found | Headers not generated yet — rebuild. |
 
@@ -105,10 +103,8 @@ On the Settings page, set paths to `yt-dlp.exe` and `ffmpeg.exe`. Settings are s
 
 ### <a id="ru-1"></a>1. Установка Visual Studio
 1. Скачайте [Visual Studio 2022](https://visualstudio.microsoft.com/ru/downloads/) (Community подойдёт).
-2. Включите рабочие нагрузки:
+2. Включите рабочую нагрузку:
    - **Разработка классических приложений на C++**
-   - **Разработка приложений для Windows с помощью C++** (WinUI 3)
-   - **Универсальная платформа Windows** (даёт Windows SDK)
 3. В «Отдельные компоненты» убедитесь, что выбран **Windows 10/11 SDK (10.0.26100.0)**.
 
 ### <a id="ru-2"></a>2. Исходники
@@ -138,12 +134,11 @@ nuget restore YtDlpGui.sln
 ### <a id="ru-5"></a>5. Сборка
 *Сборка → Собрать решение* (`Ctrl+Shift+B`). Первая сборка генерирует заголовки из `.idl` — подождите 1–3 минуты.
 
-> ✅ Результат: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe` и `YtDlpGui.msix`.
+> ✅ Результат: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe`.
 
 ### <a id="ru-6"></a>6. Запуск
 - `F5` — запуск из VS.
-- Двойной клик по `.msix` — установка (при первом разе доверьте сертификат `YtDlpGui_TemporaryKey.pfx` в «Доверенные корневые центры»).
-- Портативно: папка `AppX\` рядом с EXE.
+- Или запустите `YtDlpGui.exe` напрямую из папки сборки — установка не нужна.
 
 ### <a id="ru-7"></a>7. Настройка
 На странице «Настройки» укажите пути к `yt-dlp.exe` и `ffmpeg.exe`. Настройки сохраняются в `%LocalAppData%\YtDlpGui\config\settings.json`.
@@ -151,7 +146,8 @@ nuget restore YtDlpGui.sln
 ### <a id="ru-t"></a>Решение проблем
 | Ошибка | Решение |
 |--------|---------|
-| `MSB4019` (не найден targets) | Пакеты не восстановлены — шаг 3. |
+| `MSB4019` (не найден targets) | Пакеты не восстановлены — шаг 3. Если NuGet восстанавливает в корневую папку, удалите `packages/` и восстановите заново. |
+| `Package.appxmanifest уже существует в фильтре` | Этот файл был удалён — уберите оставшиеся ссылки из `.vcxproj`. |
 | `bootstrap failed` при запуске | Не установлен Windows App SDK Runtime 1.5 — поставьте отдельно. |
 | Тип `YtDlpGui` не найден | Заголовки ещё не сгенерированы — пересоберите. |
 
@@ -181,8 +177,6 @@ nuget restore YtDlpGui.sln
 1. 下载 [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)（Community 即可）。
 2. 启用工作负载：
    - **使用 C++ 的桌面开发**
-   - **使用 C++ 的 Windows 开发**（WinUI 3）
-   - **通用 Windows 平台**（提供 Windows SDK）
 3. 在“单个组件”中确认已勾选 **Windows 10/11 SDK (10.0.26100.0)**。
 
 ### <a id="cn-2"></a>2. 获取源码
@@ -212,12 +206,11 @@ nuget restore YtDlpGui.sln
 ### <a id="cn-5"></a>5. 生成
 *生成 → 生成解决方案*（`Ctrl+Shift+B`）。首次生成会从 `.idl` 生成头文件——请等待 1–3 分钟。
 
-> ✅ 输出：`YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe` 和 `YtDlpGui.msix`。
+> ✅ 输出：`YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe`。
 
 ### <a id="cn-6"></a>6. 运行
 - `F5` — 从 VS 运行。
-- 双击 `.msix` — 安装（首次请将 `YtDlpGui_TemporaryKey.pfx` 信任到“受信任的根证书颁发机构”）。
-- 便携版：EXE 旁的 `AppX\` 文件夹。
+- 或直接运行输出文件夹中的 `YtDlpGui.exe` — 无需安装。
 
 ### <a id="cn-7"></a>7. 设置
 在“设置”页中指定 `yt-dlp.exe` 和 `ffmpeg.exe` 的路径。设置保存在 `%LocalAppData%\YtDlpGui\config\settings.json`。
@@ -255,8 +248,6 @@ nuget restore YtDlpGui.sln
 1. הורד את [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (הגרסה Community מספיקה).
 2. הפעל עומסי עבודה:
    - **Desktop development with C++**
-   - **Windows development with C++** (WinUI 3)
-   - **Universal Windows Platform** (מספק את Windows SDK)
 3. ב"רכיבים בודדים" ודא שנבחר **Windows 10/11 SDK (10.0.26100.0)**.
 
 ### <a id="he-2"></a>2. מקורות
@@ -286,12 +277,11 @@ nuget restore YtDlpGui.sln
 ### <a id="he-5"></a>5. בנייה
 *Build → Build Solution* (`Ctrl+Shift+B`). הבנייה הראשונה מייצרת כותרות מ-`.idl` — המתן 1–3 דקות.
 
-> ✅ פלט: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe` ו-`YtDlpGui.msix`.
+> ✅ פלט: `YtDlpGui\x64\Release\YtDlpGui\YtDlpGui.exe`.
 
 ### <a id="he-6"></a>6. הרצה
 - `F5` — הרצה מתוך VS.
-- לחיצה כפולה על `.msix` — התקנה (בפעם הראשונה אשר את `YtDlpGui_TemporaryKey.pfx` ב"רשויות אישורים עם שורש מהימן").
-- נייד: תיקיית `AppX\` לצד קובץ ה-EXE.
+- או הפעל את `YtDlpGui.exe` ישירות מתיקיית הפלט — אין צורך בהתקנה.
 
 ### <a id="he-7"></a>7. הגדרה
 בעמוד ההגדרות, הגדר נתיבים ל-`yt-dlp.exe` ול-`ffmpeg.exe`. ההגדרות נשמרות ב-`%LocalAppData%\YtDlpGui\config\settings.json`.
@@ -299,6 +289,7 @@ nuget restore YtDlpGui.sln
 ### <a id="he-t"></a>פתרון תקלות
 | שגיאה | תיקון |
 |-------|-------|
-| `MSB4019` (targets לא נמצאו) | חבילות לא שוחזרו — שלב 3. |
+| `MSB4019` (targets לא נמצאו) | חבילות לא שוחזרו — שלב 3. אם NuGet משחזר לתיקיית השורש, מחק את `packages/` ושחזר שוב. |
+| `Package.appxmanifest כבר קיים בפילטר` | קובץ זה נמחק — הסר הפניות שנותרו מ-`.vcxproj`. |
 | `bootstrap failed` בהרצה | Windows App SDK Runtime 1.5 חסר — התקן בנפרד. |
 | הסוג `YtDlpGui` לא נמצא | הכותרות עדיין לא נוצרו — בנה מחדש. |

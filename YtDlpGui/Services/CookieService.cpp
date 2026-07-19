@@ -18,13 +18,14 @@ namespace winrt::YtDlpGui::Services
 
     bool CookieService::ImportFromFile(const std::wstring& filePath, CookieFormat format)
     {
-        std::wifstream file(filePath);
+        std::ifstream file(filePath, std::ios::binary);
         if (!file.is_open())
             return false;
 
-        std::wstringstream buffer;
+        std::stringstream buffer;
         buffer << file.rdbuf();
-        std::wstring content = buffer.str();
+        std::string utf8 = buffer.str();
+        std::wstring content = winrt::to_hstring(utf8);
 
         switch (format)
         {
@@ -116,6 +117,9 @@ namespace winrt::YtDlpGui::Services
                     domain = cookie.GetNamedString(L"domain");
                 if (cookie.HasKey(L"name"))
                     name = cookie.GetNamedString(L"name");
+
+                if (domain.empty() || name.empty())
+                    continue;
                 if (cookie.HasKey(L"value"))
                     value = cookie.GetNamedString(L"value");
                 if (cookie.HasKey(L"path"))
@@ -142,9 +146,27 @@ namespace winrt::YtDlpGui::Services
         std::wstring netscape = L"# Netscape HTTP Cookie File\n";
         std::wistringstream stream(content);
         std::wstring line;
+        std::wstring currentDomain = L".example.com";
 
         while (std::getline(stream, line))
         {
+            size_t hostPos = line.find(L"Host:");
+            if (hostPos != std::wstring::npos)
+            {
+                std::wstring hostVal = line.substr(hostPos + 5);
+                auto trimLeft = [](std::wstring& s) {
+                    s.erase(0, s.find_first_not_of(L" \t"));
+                };
+                auto trimRight = [](std::wstring& s) {
+                    auto p = s.find_last_not_of(L" \t\r\n");
+                    if (p != std::wstring::npos) s.erase(p + 1); else s.clear();
+                };
+                trimLeft(hostVal);
+                trimRight(hostVal);
+                if (!hostVal.empty())
+                    currentDomain = hostVal;
+            }
+
             size_t pos = line.find(L"Cookie:");
             if (pos == std::wstring::npos)
                 pos = line.find(L"Set-Cookie:");
@@ -177,7 +199,7 @@ namespace winrt::YtDlpGui::Services
                     trimLeft(value);
                     trimRight(value);
 
-                    netscape += L".youtube.com\tTRUE\t/\tFALSE\t0\t" + name + L"\t" + value + L"\n";
+                    netscape += currentDomain + L"\tTRUE\t/\tFALSE\t0\t" + name + L"\t" + value + L"\n";
                 }
             }
         }
@@ -195,10 +217,11 @@ namespace winrt::YtDlpGui::Services
         std::filesystem::path path(m_cookieFilePath);
         std::filesystem::create_directories(path.parent_path());
 
-        std::wofstream file(m_cookieFilePath);
+        std::string utf8 = winrt::to_string(content);
+        std::ofstream file(m_cookieFilePath, std::ios::binary);
         if (file.is_open())
         {
-            file << content;
+            file.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
             file.close();
         }
     }
@@ -216,10 +239,12 @@ namespace winrt::YtDlpGui::Services
     {
         if (m_cookieFilePath.empty())
             return L"";
-        std::wifstream file(m_cookieFilePath);
-        std::wstringstream buffer;
+        std::ifstream file(m_cookieFilePath, std::ios::binary);
+        if (!file.is_open())
+            return L"";
+        std::stringstream buffer;
         buffer << file.rdbuf();
-        return buffer.str();
+        return winrt::to_hstring(buffer.str());
     }
 
     std::wstring CookieService::GetCookieFilePathForYtDlp() const
@@ -230,7 +255,8 @@ namespace winrt::YtDlpGui::Services
     std::wstring CookieService::GetBrowserCookiePath(const std::wstring& browserName)
     {
         wchar_t localAppData[MAX_PATH];
-        SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, 0, localAppData);
+        if (FAILED(SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, 0, localAppData)))
+            return L"";
 
         if (browserName == L"Chrome")
             return std::wstring(localAppData) + L"\\Google\\Chrome\\User Data\\Default\\Network\\Cookies";
@@ -238,19 +264,6 @@ namespace winrt::YtDlpGui::Services
             return std::wstring(localAppData) + L"\\Microsoft\\Edge\\User Data\\Default\\Network\\Cookies";
         else if (browserName == L"Firefox")
         {
-            std::wstring firefoxDir = std::wstring(localAppData) + L"\\Mozilla\\Firefox\\Profiles";
-            if (std::filesystem::exists(firefoxDir))
-            {
-                for (auto& entry : std::filesystem::directory_iterator(firefoxDir))
-                {
-                    if (entry.is_directory())
-                    {
-                        std::wstring cookiesPath = entry.path().wstring() + L"\\cookies.sqlite";
-                        if (std::filesystem::exists(cookiesPath))
-                            return cookiesPath;
-                    }
-                }
-            }
             return L"";
         }
         else if (browserName == L"Opera")

@@ -42,18 +42,12 @@
                   SelectionMode="Extended"
                   x:DeferLoadStrategy="Lazy">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="x:String">
                     <Grid Padding="4,2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" IsChecked="True" Margin="0,0,8,0"/>
-                        <TextBlock Grid.Column="1" Opacity="0.5" Width="30"/>
-                        <TextBlock Grid.Column="2" Text="Title" MaxLines="1" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Grid.Column="3" Text="Duration" Opacity="0.5" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="0" Text="{x:Bind}" MaxLines="1" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -50,12 +50,11 @@ namespace winrt::YtDlpGui::ViewModels
         void OnDelete(winrt::Windows::Foundation::IInspectable const& param);
         void OnDeleteAll();
         void OnRefresh();
-        void OnExportCsv();
-        void OnExportJson();
+        winrt::Windows::Foundation::IAsyncAction OnExportCsv();
+        winrt::Windows::Foundation::IAsyncAction OnExportJson();
         void OnOpenFolder(winrt::Windows::Foundation::IInspectable const& param);
         void OnToggleStar(winrt::Windows::Foundation::IInspectable const& param);
         void OnRedownload(winrt::Windows::Foundation::IInspectable const& param);
-        void RunOnUI(std::function<void()> action);
 
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::YtDlpGui::Models::HistoryEntry> m_entries{
             winrt::single_threaded_observable_vector<winrt::YtDlpGui::Models::HistoryEntry>()

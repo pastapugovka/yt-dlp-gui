@@ -35,7 +35,7 @@
     </Style>
 
     <!-- Danger Button Style -->
-    <Style x:Key="DangerButtonStyle" TargetType="Button">
+    <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
         <Setter Property="Background" Value="#E81123"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="CornerRadius" Value="4"/>

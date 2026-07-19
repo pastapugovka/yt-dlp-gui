@@ -18,10 +18,10 @@ namespace winrt::YtDlpGui::ViewModels
                      std::function<bool(winrt::Windows::Foundation::IInspectable const&)> canExecute)
             : m_execute(std::move(execute)), m_canExecute(std::move(canExecute)) {}
 
-        bool CanExecute(winrt::Windows::Foundation::IInspectable const&) const override
+        bool CanExecute(winrt::Windows::Foundation::IInspectable const& parameter) const override
         {
             if (m_canExecute)
-                return m_canExecute(nullptr);
+                return m_canExecute(parameter);
             return true;
         }
 

@@ -37,7 +37,8 @@ namespace winrt::YtDlpGui::ViewModels
     {
         SetDispatcher(dispatcher);
         m_outputDir = winrt::to_hstring(m_settingsService->GetDataPath() + L"downloads");
-        std::filesystem::create_directories(m_settingsService->GetDataPath() + L"downloads");
+        std::error_code ec;
+        std::filesystem::create_directories(m_settingsService->GetDataPath() + L"downloads", ec);
     }
 
     void DownloadViewModel::Url(winrt::hstring const& value)
@@ -186,18 +187,21 @@ namespace winrt::YtDlpGui::ViewModels
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable>
     DownloadViewModel::AvailableCodecs() const
     {
+        if (m_availableCodecs) return m_availableCodecs;
         auto vec = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
         vec.Append(winrt::box_value(L"best"));
         vec.Append(winrt::box_value(L"H.264 (AVC)"));
         vec.Append(winrt::box_value(L"H.265 (HEVC)"));
         vec.Append(winrt::box_value(L"VP9"));
         vec.Append(winrt::box_value(L"AV1"));
-        return vec;
+        m_availableCodecs = vec;
+        return m_availableCodecs;
     }
 
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable>
     DownloadViewModel::AvailableResolutions() const
     {
+        if (m_availableResolutions) return m_availableResolutions;
         auto vec = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
         vec.Append(winrt::box_value(L"best"));
         vec.Append(winrt::box_value(L"8K (4320p)"));
@@ -209,30 +213,35 @@ namespace winrt::YtDlpGui::ViewModels
         vec.Append(winrt::box_value(L"360p"));
         vec.Append(winrt::box_value(L"240p"));
         vec.Append(winrt::box_value(L"144p"));
-        return vec;
+        m_availableResolutions = vec;
+        return m_availableResolutions;
     }
 
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable>
     DownloadViewModel::AvailableAudioCodecs() const
     {
+        if (m_availableAudioCodecs) return m_availableAudioCodecs;
         auto vec = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
         vec.Append(winrt::box_value(L"best"));
         vec.Append(winrt::box_value(L"AAC"));
         vec.Append(winrt::box_value(L"MP3"));
         vec.Append(winrt::box_value(L"Opus"));
         vec.Append(winrt::box_value(L"FLAC"));
-        return vec;
+        m_availableAudioCodecs = vec;
+        return m_availableAudioCodecs;
     }
 
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Foundation::IInspectable>
     DownloadViewModel::AvailableBitrates() const
     {
+        if (m_availableBitrates) return m_availableBitrates;
         auto vec = winrt::single_threaded_observable_vector<winrt::Windows::Foundation::IInspectable>();
         vec.Append(winrt::box_value(L"128"));
         vec.Append(winrt::box_value(L"192"));
         vec.Append(winrt::box_value(L"256"));
         vec.Append(winrt::box_value(L"320"));
-        return vec;
+        m_availableBitrates = vec;
+        return m_availableBitrates;
     }
 
     void DownloadViewModel::OnAnalyze()
@@ -242,55 +251,57 @@ namespace winrt::YtDlpGui::ViewModels
 
         m_cancelRequested = false;
         m_isAnalyzing = true;
+        RaisePropertyChanged(L"IsAnalyzing");
         m_hasVideoInfo = false;
         StatusText(L"Анализ...");
         AppendLog(L"Начинаем анализ ссылки: " + std::wstring(m_url), 0);
 
-        m_ytdlpService->SetLogCallback([this](const std::string& line, int level)
+        auto strong = get_strong();
+        m_ytdlpService->SetLogCallback([strong](const std::string& line, int level)
         {
-            RunOnUI([this, line, level]()
+            strong->RunOnUI([strong, line, level]()
             {
-                AppendLog(winrt::to_hstring(line), level);
+                strong->AppendLog(winrt::to_hstring(line), level);
             });
         });
 
         std::wstring url = std::wstring(m_url);
-        std::wstring args = L"--dump-json --no-warnings --no-playlist \"" + url + L"\"";
+        std::wstring args = L"--dump-json --no-warnings --no-playlist " + Services::ProcessRunner::QuoteArg(url);
         if (m_cookieService->HasCookies())
         {
-            args += L" --cookies \"" + m_cookieService->GetCookieFilePathForYtDlp() + L"\"";
+            args += L" --cookies " + Services::ProcessRunner::QuoteArg(m_cookieService->GetCookieFilePathForYtDlp());
         }
 
-        auto self = this;
-        m_processRunner.SetOutputCallback([self](const std::string& line)
+        m_processRunner.SetOutputCallback([strong](const std::string& line)
         {
-            self->RunOnUI([self, line]()
+            strong->RunOnUI([strong, line]()
             {
                 try
                 {
-                    self->ProcessAnalysisResult(line);
+                    strong->ProcessAnalysisResult(line);
                 }
                 catch (...) {}
             });
         });
 
         m_processRunner.RunAsync(L"yt-dlp.exe", args,
-            [this, self](int exitCode)
+            [strong](int exitCode)
             {
-                RunOnUI([this, exitCode]()
+                strong->RunOnUI([strong, exitCode]()
                 {
-                    m_isAnalyzing = false;
+                    strong->m_isAnalyzing = false;
+                    strong->RaisePropertyChanged(L"IsAnalyzing");
                     if (exitCode == 0)
                     {
-                        StatusText(L"Анализ завершён");
-                        AppendLog(L"Анализ успешно завершён", 1);
+                        strong->StatusText(L"Анализ завершён");
+                        strong->AppendLog(L"Анализ успешно завершён", 1);
                     }
                     else
                     {
-                        StatusText(L"Ошибка анализа");
-                        AppendLog(L"Ошибка при анализе (код: " + std::to_wstring(exitCode) + L")", 2);
+                        strong->StatusText(L"Ошибка анализа");
+                        strong->AppendLog(L"Ошибка при анализе (код: " + std::to_wstring(exitCode) + L")", 2);
                     }
-                    auto cmd = m_downloadCommand.as<RelayCommand>();
+                    auto cmd = strong->m_downloadCommand.as<RelayCommand>();
                     cmd->RaiseCanExecuteChanged();
                 });
             });
@@ -314,19 +325,20 @@ namespace winrt::YtDlpGui::ViewModels
 
         std::wstring args;
         args += L" --newline --no-warnings";
-        args += L" -o \"" + outputTemplate + L"\"";
-        args += L" -f \"" + formatStr + L"\"";
+        args += L" -o " + Services::ProcessRunner::QuoteArg(outputTemplate);
+        args += L" -f " + Services::ProcessRunner::QuoteArg(formatStr);
         if (m_cookieService->HasCookies())
-            args += L" --cookies \"" + m_cookieService->GetCookieFilePathForYtDlp() + L"\"";
+            args += L" --cookies " + Services::ProcessRunner::QuoteArg(m_cookieService->GetCookieFilePathForYtDlp());
         if (m_separateAudio)
             args += L" -x --audio-format best";
         if (!m_advancedFlags.empty())
             args += L" " + std::wstring(m_advancedFlags);
-        args += L" \"" + std::wstring(m_url) + L"\"";
+        args += L" " + Services::ProcessRunner::QuoteArg(std::wstring(m_url));
 
-        m_processRunner.SetOutputCallback([this](const std::string& line)
+        auto strong2 = get_strong();
+        m_processRunner.SetOutputCallback([strong2](const std::string& line)
         {
-            RunOnUI([this, line]()
+            strong2->RunOnUI([strong2, line]()
             {
                 if (line.find("[download]") != std::string::npos)
                 {
@@ -337,55 +349,55 @@ namespace winrt::YtDlpGui::ViewModels
                         try
                         {
                             double percent = std::stod(numStr);
-                            m_progressValue = percent;
-                            RaisePropertyChanged(L"ProgressValue");
+                            strong2->m_progressValue = percent;
+                            strong2->RaisePropertyChanged(L"ProgressValue");
                         }
                         catch (...) {}
                     }
                     if (line.find("Destination:") != std::string::npos)
                     {
                         auto dest = line.substr(line.find("Destination:") + 13);
-                        m_currentFileText = winrt::to_hstring(dest);
-                        RaisePropertyChanged(L"CurrentFileText");
+                        strong2->m_currentFileText = winrt::to_hstring(dest);
+                        strong2->RaisePropertyChanged(L"CurrentFileText");
                     }
                 }
-                AppendLog(winrt::to_hstring(line), 0);
+                strong2->AppendLog(winrt::to_hstring(line), 0);
             });
         });
 
         m_processRunner.RunAsync(L"yt-dlp.exe", args,
-            [this](int exitCode)
+            [strong2](int exitCode)
             {
-                RunOnUI([this, exitCode]()
+                strong2->RunOnUI([strong2, exitCode]()
                 {
-                    m_isDownloading = false;
-                    m_progressValue = exitCode == 0 ? 100 : m_progressValue;
-                    RaisePropertyChanged(L"ProgressValue");
+                    strong2->m_isDownloading = false;
+                    strong2->m_progressValue = exitCode == 0 ? 100 : strong2->m_progressValue;
+                    strong2->RaisePropertyChanged(L"ProgressValue");
 
                     if (exitCode == 0)
                     {
-                        StatusText(L"Загрузка завершена");
-                        AppendLog(L"Загрузка успешно завершена!", 1);
-                        RecordHistory(true, L"");
-                        m_downloadCompleted(nullptr, true);
+                        strong2->StatusText(L"Загрузка завершена");
+                        strong2->AppendLog(L"Загрузка успешно завершена!", 1);
+                        strong2->RecordHistory(true, L"");
+                        strong2->m_downloadCompleted(nullptr, true);
                     }
-                    else if (m_cancelRequested)
+                    else if (strong2->m_cancelRequested)
                     {
-                        StatusText(L"Отменено");
-                        AppendLog(L"Загрузка отменена пользователем", 2);
-                        RecordHistoryCancelled();
-                        m_downloadCompleted(nullptr, false);
+                        strong2->StatusText(L"Отменено");
+                        strong2->AppendLog(L"Загрузка отменена пользователем", 2);
+                        strong2->RecordHistoryCancelled();
+                        strong2->m_downloadCompleted(nullptr, false);
                     }
                     else
                     {
-                        StatusText(L"Ошибка загрузки");
-                        AppendLog(L"Ошибка при загрузке (код: " + std::to_wstring(exitCode) + L")", 2);
-                        RecordHistory(false, L"Код возврата: " + std::to_wstring(exitCode));
-                        m_downloadCompleted(nullptr, false);
+                        strong2->StatusText(L"Ошибка загрузки");
+                        strong2->AppendLog(L"Ошибка при загрузке (код: " + std::to_wstring(exitCode) + L")", 2);
+                        strong2->RecordHistory(false, L"Код возврата: " + std::to_wstring(exitCode));
+                        strong2->m_downloadCompleted(nullptr, false);
                     }
-                    auto cmd = m_downloadCommand.as<RelayCommand>();
+                    auto cmd = strong2->m_downloadCommand.as<RelayCommand>();
                     cmd->RaiseCanExecuteChanged();
-                    auto cancelCmd = m_cancelCommand.as<RelayCommand>();
+                    auto cancelCmd = strong2->m_cancelCommand.as<RelayCommand>();
                     cancelCmd->RaiseCanExecuteChanged();
                 });
             });
@@ -400,7 +412,6 @@ namespace winrt::YtDlpGui::ViewModels
     {
         m_cancelRequested = true;
         m_processRunner.Cancel();
-        m_isDownloading = false;
         StatusText(L"Отменено");
         AppendLog(L"Загрузка отменена пользователем", 2);
         RaisePropertyChanged(L"IsDownloading");
@@ -426,7 +437,12 @@ namespace winrt::YtDlpGui::ViewModels
 
     void DownloadViewModel::OnOpenOutputDir()
     {
-        ShellExecuteW(nullptr, L"open", std::wstring(m_outputDir).c_str(), nullptr, nullptr, SW_SHOW);
+        auto result = reinterpret_cast<INT_PTR>(ShellExecuteW(nullptr, L"open", std::wstring(m_outputDir).c_str(), nullptr, nullptr, SW_SHOW));
+        if (result <= 32)
+        {
+            StatusText(L"Не удалось открыть папку");
+            AppendLog(L"Ошибка открытия папки: " + std::wstring(m_outputDir), 2);
+        }
     }
 
     void DownloadViewModel::OnClearLog()
@@ -484,7 +500,7 @@ namespace winrt::YtDlpGui::ViewModels
     {
         if (!m_historyDatabase)
             return;
-        Models::HistoryEntry entry;
+        Models::HistoryEntryData entry;
         entry.Url = m_url;
         entry.Title = m_title.empty() ? m_url : m_title;
         entry.Uploader = m_uploader;
@@ -506,7 +522,7 @@ namespace winrt::YtDlpGui::ViewModels
     {
         if (!m_historyDatabase)
             return;
-        Models::HistoryEntry entry;
+        Models::HistoryEntryData entry;
         entry.Url = m_url;
         entry.Title = m_title.empty() ? m_url : m_title;
         entry.Uploader = m_uploader;

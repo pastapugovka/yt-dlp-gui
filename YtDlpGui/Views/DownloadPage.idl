@@ -1,7 +1,7 @@
 namespace YtDlpGui.Views
 {
     [default_interface]
-    unsealed runtimeclass DownloadPage : Windows.UI.Xaml.Controls.Page
+    unsealed runtimeclass DownloadPage : Microsoft.UI.Xaml.Controls.Page
     {
         DownloadPage();
         YtDlpGui.ViewModels.DownloadViewModel ViewModel{ get; };

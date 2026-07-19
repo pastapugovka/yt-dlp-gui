@@ -8,6 +8,7 @@ namespace winrt::YtDlpGui::Views::implementation
     struct HistoryPage : HistoryPageT<HistoryPage>
     {
         HistoryPage();
+        ~HistoryPage();
 
         winrt::YtDlpGui::ViewModels::HistoryViewModel ViewModel() const { return m_viewModel; }
 
@@ -19,6 +20,7 @@ namespace winrt::YtDlpGui::Views::implementation
         void UpdateEmptyState();
 
         winrt::YtDlpGui::ViewModels::HistoryViewModel m_viewModel{ nullptr };
+        winrt::event_token m_propertyChangedToken{};
     };
 }
 

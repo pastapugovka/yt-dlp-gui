@@ -21,6 +21,8 @@
 
 </div>
 
+<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/ru.png" alt="Скриншот" width="100%"/>
+
 ## Возможности
 - Загрузка отдельных видео и плейлистов
 - Выбор диапазона элементов плейлиста (с возможностью возобновления)

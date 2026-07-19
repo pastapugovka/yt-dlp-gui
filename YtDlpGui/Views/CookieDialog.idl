@@ -4,6 +4,5 @@ namespace YtDlpGui.Views
     unsealed runtimeclass CookieDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         CookieDialog();
-        void ImportBrowserBtn_Click(Windows.Foundation.Object sender, Microsoft.UI.Xaml.RoutedEventArgs args);
     }
 }

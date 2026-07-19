@@ -34,16 +34,6 @@ namespace winrt::YtDlpGui::ViewModels
         RefreshEntries();
     }
 
-    void HistoryViewModel::RunOnUI(std::function<void()> action)
-    {
-        if (!m_dispatcher)
-        {
-            action();
-            return;
-        }
-        m_dispatcher.TryEnqueue(winrt::Microsoft::UI::Dispatching::DispatcherQueueHandler(action));
-    }
-
     void HistoryViewModel::SearchText(winrt::hstring const& value)
     {
         if (m_searchText != value)
@@ -78,11 +68,13 @@ namespace winrt::YtDlpGui::ViewModels
     {
         m_entries.Clear();
 
-        std::vector<Models::HistoryEntry> entries = m_database->GetAllEntries();
-        if (!m_statusFilter.empty() && m_statusFilter != L"Все" && m_statusFilter != L"All")
-            entries = m_database->FilterEntries(std::wstring(m_statusFilter), L"Все");
-        else if (!m_platformFilter.empty() && m_platformFilter != L"Все" && m_platformFilter != L"All")
-            entries = m_database->FilterEntries(L"Все", std::wstring(m_platformFilter));
+        std::wstring status = (m_statusFilter.empty() || m_statusFilter == L"Все" || m_statusFilter == L"All")
+            ? L"Все" : std::wstring(m_statusFilter);
+        std::wstring platform = (m_platformFilter.empty() || m_platformFilter == L"Все" || m_platformFilter == L"All")
+            ? L"Все" : std::wstring(m_platformFilter);
+
+        std::vector<Models::HistoryEntryData> entries = m_database->FilterEntries(status, platform);
+
         if (!m_searchText.empty())
             entries = m_database->SearchEntries(std::wstring(m_searchText));
 
@@ -140,52 +132,46 @@ namespace winrt::YtDlpGui::ViewModels
         RefreshEntries();
     }
 
-    void HistoryViewModel::OnExportCsv()
+    winrt::Windows::Foundation::IAsyncAction HistoryViewModel::OnExportCsv()
     {
-        RunOnUI([this]()
+        auto picker = winrt::Windows::Storage::Pickers::FileSavePicker();
+        picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
+        picker.FileTypeChoices().Insert(L"CSV", winrt::single_threaded_vector<winrt::hstring>({ L".csv" }));
+        picker.SuggestedFileName(L"yt-dlp-history");
+
+        HWND hwnd = GetActiveWindow();
+        if (hwnd)
         {
-            auto picker = winrt::Windows::Storage::Pickers::FileSavePicker();
-            picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
-            picker.FileTypeChoices().Insert(L"CSV", winrt::single_threaded_vector<winrt::hstring>({ L".csv" }));
-            picker.SuggestedFileName(L"yt-dlp-history");
+            if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
+                init.Initialize(hwnd);
+        }
 
-            HWND hwnd = GetActiveWindow();
-            if (hwnd)
-            {
-                if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
-                    init.Initialize(hwnd);
-            }
-
-            auto file = picker.PickSaveFileAsync().get();
-            if (file)
-            {
-                m_database->ExportToCsv(std::wstring(file.Path()));
-            }
-        });
+        auto file = co_await picker.PickSaveFileAsync();
+        if (file)
+        {
+            m_database->ExportToCsv(std::wstring(file.Path()));
+        }
     }
 
-    void HistoryViewModel::OnExportJson()
+    winrt::Windows::Foundation::IAsyncAction HistoryViewModel::OnExportJson()
     {
-        RunOnUI([this]()
+        auto picker = winrt::Windows::Storage::Pickers::FileSavePicker();
+        picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
+        picker.FileTypeChoices().Insert(L"JSON", winrt::single_threaded_vector<winrt::hstring>({ L".json" }));
+        picker.SuggestedFileName(L"yt-dlp-history");
+
+        HWND hwnd = GetActiveWindow();
+        if (hwnd)
         {
-            auto picker = winrt::Windows::Storage::Pickers::FileSavePicker();
-            picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
-            picker.FileTypeChoices().Insert(L"JSON", winrt::single_threaded_vector<winrt::hstring>({ L".json" }));
-            picker.SuggestedFileName(L"yt-dlp-history");
+            if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
+                init.Initialize(hwnd);
+        }
 
-            HWND hwnd = GetActiveWindow();
-            if (hwnd)
-            {
-                if (auto init = picker.try_as<winrt::Windows::Storage::Pickers::IInitializeWithWindow>())
-                    init.Initialize(hwnd);
-            }
-
-            auto file = picker.PickSaveFileAsync().get();
-            if (file)
-            {
-                m_database->ExportToJson(std::wstring(file.Path()));
-            }
-        });
+        auto file = co_await picker.PickSaveFileAsync();
+        if (file)
+        {
+            m_database->ExportToJson(std::wstring(file.Path()));
+        }
     }
 
     void HistoryViewModel::OnOpenFolder(winrt::Windows::Foundation::IInspectable const& param)
@@ -230,8 +216,8 @@ namespace winrt::YtDlpGui::ViewModels
         auto id = entry.Id();
         auto title = std::wstring(entry.Title());
 
-        auto self = get_strong();
-        std::thread([url, settings, cookieService, db, id, title, self, this]()
+        auto strong = get_strong();
+        std::thread([url, settings, cookieService, db, id, title, strong]()
         {
             auto runner = std::make_shared<Services::ProcessRunner>();
             auto dataPath = settings->GetDataPath();
@@ -247,15 +233,14 @@ namespace winrt::YtDlpGui::ViewModels
 
             runner->RunSync(ytdlp, args);
 
-            Models::HistoryEntry updated;
+            Models::HistoryEntryData updated;
             updated.Id = id;
             updated.Title = winrt::to_hstring(title);
             updated.Url = winrt::to_hstring(url);
 
-            auto weakDb = db;
-            RunOnUI([weakDb, updated]()
+            strong->RunOnUI([db, updated]()
             {
-                weakDb->UpdateEntry(updated);
+                db->UpdateEntry(updated);
             });
         }).detach();
     }

@@ -14,12 +14,8 @@ namespace winrt::YtDlpGui::Views::implementation
         winrt::hstring ImportedCookieText() const { return m_importedCookieText; }
 
     private:
-        void ImportBrowserBtn_Click(
-            winrt::Windows::Foundation::IInspectable const& sender,
-            winrt::Microsoft::UI::Xaml::RoutedEventArgs const& args);
-
         void UpdatePanels();
-        void OnPrimary();
+        winrt::Windows::Foundation::IAsyncAction OnPrimaryAsync();
 
         winrt::hstring m_importedCookieText;
     };

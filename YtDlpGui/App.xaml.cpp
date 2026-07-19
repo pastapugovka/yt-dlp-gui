@@ -3,23 +3,16 @@
 #include "MainWindow.xaml.h"
 #include <mddbootstrap.h>
 
-#if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
-extern "C" BOOL __stdcall IsDebuggerPresent() { return FALSE; }
-#endif
-
 namespace winrt::YtDlpGui::implementation
 {
     App::App()
     {
         InitializeComponent();
 
-        UnhandledException([this](IInspectable const&, Microsoft::UI::Xaml::UnhandledExceptionEventArgs const& e)
+        UnhandledException([](IInspectable const&, Microsoft::UI::Xaml::UnhandledExceptionEventArgs const& e)
         {
             std::wstring msg = L"Unhandled exception: " + std::wstring(e.Message());
             ::OutputDebugStringW(msg.c_str());
-            if (IsDebuggerPresent())
-                return;
-
             e.Handled(true);
         });
     }
@@ -40,13 +33,14 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     PACKAGE_VERSION minVersion{};
     minVersion.Major = 1;
     minVersion.Minor = 5;
-    minVersion.Build = 240802000 >> 16;
+    minVersion.Build = 2408;
     minVersion.Revision = 0;
 
     HRESULT hr = MddBootstrapInitialize(majorMinorVersion, version, minVersion);
     if (FAILED(hr))
     {
         ::OutputDebugStringW(L"WindowsAppSDK bootstrap failed.\n");
+        return 1;
     }
 
     winrt::Microsoft::UI::Xaml::Application::Start([](auto const&) {});

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ProxyService.h"
+#include "ProcessRunner.h"
 
 namespace winrt::YtDlpGui::Services
 {
@@ -14,7 +15,7 @@ namespace winrt::YtDlpGui::Services
     {
         if (m_proxyUrl.empty())
             return L"";
-        return L" --proxy \"" + m_proxyUrl + L"\"";
+        return L" --proxy " + ProcessRunner::QuoteArg(m_proxyUrl);
     }
 
     std::vector<std::wstring> ProxyService::GetSupportedProxyTypes()

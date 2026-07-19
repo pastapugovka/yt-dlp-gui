@@ -37,29 +37,34 @@ namespace winrt::YtDlpGui::Services
             obj.Insert(key, JsonValue::CreateStringValue(value));
         }
 
-        std::wofstream file(m_dataPath + L"config\\settings.json");
+        std::ofstream file(m_dataPath + L"config\\settings.json", std::ios::binary);
         if (!file.is_open())
             return;
 
         std::wstring content = std::wstring(obj.Stringify());
         std::string utf8 = winrt::to_string(content);
-        file.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
+        if (!utf8.empty())
+        {
+            file.write(utf8.data(), static_cast<std::streamsize>(utf8.size()));
+        }
         file.close();
     }
 
     void SettingsService::Load()
     {
-        std::wifstream file(m_dataPath + L"config\\settings.json");
+        std::ifstream file(m_dataPath + L"config\\settings.json", std::ios::binary);
         if (!file.is_open())
             return;
 
-        std::wstringstream buffer;
+        std::stringstream buffer;
         buffer << file.rdbuf();
-        std::wstring content = buffer.str();
+        std::string utf8 = buffer.str();
+        if (utf8.empty())
+            return;
 
         try
         {
-            auto json = winrt::Windows::Data::Json::JsonObject::Parse(content);
+            auto json = winrt::Windows::Data::Json::JsonObject::Parse(winrt::to_hstring(utf8));
             auto iter = json.First();
             while (iter.HasCurrent())
             {
@@ -88,7 +93,8 @@ namespace winrt::YtDlpGui::Services
     {
         auto val = GetString(key);
         if (val.empty()) return defaultVal;
-        return std::stoi(val);
+        try { return std::stoi(val); }
+        catch (...) { return defaultVal; }
     }
 
     void SettingsService::SetInt(const std::wstring& key, int value)
@@ -112,7 +118,8 @@ namespace winrt::YtDlpGui::Services
     {
         auto val = GetString(key);
         if (val.empty()) return defaultVal;
-        return std::stod(val);
+        try { return std::stod(val); }
+        catch (...) { return defaultVal; }
     }
 
     void SettingsService::SetDouble(const std::wstring& key, double value)

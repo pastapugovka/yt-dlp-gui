@@ -21,6 +21,8 @@
 
 </div>
 
+<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/en.png" alt="Screenshot" width="100%"/>
+
 ## Features
 - Download individual videos and entire playlists
 - Select a range of playlist items (with resume support)

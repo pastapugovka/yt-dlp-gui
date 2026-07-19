@@ -3,6 +3,7 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <atomic>
 
 namespace winrt::YtDlpGui::Services
 {
@@ -36,7 +37,7 @@ namespace winrt::YtDlpGui::Services
 
     private:
         std::unique_ptr<class ProcessRunner> m_runner;
-        bool m_downloading{ false };
+        std::atomic<bool> m_downloading{ false };
         std::function<void(const std::string&, int)> m_logCallback;
         ProgressCallback m_progressCallback;
     };

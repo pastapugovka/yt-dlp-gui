@@ -1,7 +1,7 @@
 namespace YtDlpGui.Views
 {
     [default_interface]
-    unsealed runtimeclass SettingsPage : Windows.UI.Xaml.Controls.Page
+    unsealed runtimeclass SettingsPage : Microsoft.UI.Xaml.Controls.Page
     {
         SettingsPage();
         YtDlpGui.ViewModels.SettingsViewModel ViewModel{ get; };

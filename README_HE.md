@@ -23,6 +23,8 @@
 
 <div dir="rtl">
 
+<img src="https://raw.githubusercontent.com/pastapugovka/assets/main/hb%20il.png" alt="צילום מסך" width="100%"/>
+
 ## תכונות
 - הורדת סרטונים בודדים ופלייליסטים
 - בחירת טווח פריטים בפלייליסט (עם תמיכה בהמשך הורדה)

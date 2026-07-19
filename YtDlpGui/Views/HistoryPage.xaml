@@ -66,28 +66,30 @@
                       x:Name="StatusFilter"
                       PlaceholderText="Статус"
                       SelectedValue="{x:Bind ViewModel.StatusFilter, Mode=TwoWay}"
+                      SelectedValuePath="Tag"
                       HorizontalAlignment="Right"
                       Margin="0,0,8,0"
                       MinWidth="120">
-                <ComboBoxItem Content="Все" IsSelected="True"/>
-                <ComboBoxItem Content="Завершено"/>
-                <ComboBoxItem Content="Ошибка"/>
-                <ComboBoxItem Content="Отменено"/>
+                <ComboBoxItem Content="Все" Tag="Все" IsSelected="True"/>
+                <ComboBoxItem Content="Завершено" Tag="Completed"/>
+                <ComboBoxItem Content="Ошибка" Tag="Failed"/>
+                <ComboBoxItem Content="Отменено" Tag="Cancelled"/>
             </ComboBox>
 
             <ComboBox Grid.Column="2"
                       x:Name="PlatformFilter"
                       PlaceholderText="Платформа"
                       SelectedValue="{x:Bind ViewModel.PlatformFilter, Mode=TwoWay}"
+                      SelectedValuePath="Tag"
                       HorizontalAlignment="Right"
                       Margin="0,0,8,0"
                       MinWidth="120">
-                <ComboBoxItem Content="Все" IsSelected="True"/>
-                <ComboBoxItem Content="YouTube"/>
-                <ComboBoxItem Content="TikTok"/>
-                <ComboBoxItem Content="Twitch"/>
-                <ComboBoxItem Content="VK"/>
-                <ComboBoxItem Content="X/Twitter"/>
+                <ComboBoxItem Content="Все" Tag="Все" IsSelected="True"/>
+                <ComboBoxItem Content="YouTube" Tag="YouTube"/>
+                <ComboBoxItem Content="TikTok" Tag="TikTok"/>
+                <ComboBoxItem Content="Twitch" Tag="Twitch"/>
+                <ComboBoxItem Content="VK" Tag="VK"/>
+                <ComboBoxItem Content="X/Twitter" Tag="X/Twitter"/>
             </ComboBox>
 
             <TextBlock Grid.Column="3"

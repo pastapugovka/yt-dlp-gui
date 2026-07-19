@@ -21,9 +21,11 @@ namespace winrt::YtDlpGui::Views::implementation
         BrowserRadio().Checked([this, self](auto&&, auto&&) { UpdatePanels(); });
         ClipboardRadio().Checked([this, self](auto&&, auto&&) { UpdatePanels(); });
 
-        PrimaryButtonClick([this, self](auto&&, auto&&)
+        PrimaryButtonClick([this, self](auto&& sender, auto&& args)
         {
-            OnPrimary();
+            args.Cancel(true);
+            auto action = OnPrimaryAsync();
+            action.Completed([action](auto&&, auto&&) {});
         });
 
         co_await ShowAsync();
@@ -38,7 +40,7 @@ namespace winrt::YtDlpGui::Views::implementation
         if (ManualPanel()) ManualPanel().Visibility((file || clipboard) ? winrt::Microsoft::UI::Xaml::Visibility::Visible : winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
     }
 
-    void CookieDialog::OnPrimary()
+    winrt::Windows::Foundation::IAsyncAction CookieDialog::OnPrimaryAsync()
     {
         auto service = std::make_shared<Services::CookieService>();
         bool ok = false;
@@ -59,7 +61,7 @@ namespace winrt::YtDlpGui::Views::implementation
                     init.Initialize(hwnd);
             }
 
-            auto file = picker.PickSingleFileAsync().get();
+            auto file = co_await picker.PickSingleFileAsync();
             if (file)
             {
                 std::wstring path = std::wstring(file.Path());
@@ -111,11 +113,10 @@ namespace winrt::YtDlpGui::Views::implementation
                                         : winrt::Microsoft::UI::Xaml::Controls::InfoBarSeverity::Error);
             CookieInfoBar().Message(winrt::box_value(winrt::hstring(message)));
         }
+        if (ok)
+        {
+            Hide();
+        }
     }
 
-    void CookieDialog::ImportBrowserBtn_Click(
-        winrt::Windows::Foundation::IInspectable const&,
-        winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
-    {
-    }
 }
