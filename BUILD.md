@@ -1,6 +1,6 @@
 <div align="center">
 
-# yt-dlp-gui — Build Guide / Сборка / 构建指南 / راهنمای ساخت
+# yt-dlp-gui — Build Guide / Сборка / 构建指南 / מדריך בנייה
 
 [English](#english) / [Русский](#русский) / [简体中文](#简体中文) / [עברית](#עברית)
 
