@@ -4,10 +4,9 @@
 
 **yt-dlp-gui** — 图形界面（WinUI 3，C++/WinRT），基于 [yt-dlp](https://github.com/yt-dlp/yt-dlp)。
 
-[![English](https://img.shields.io/badge/🌐_English-README_EN-blue)](README_EN.md)
-[![Русский](https://img.shields.io/badge/🌐_Русский-README-important)](README.md)
-[![中文](https://img.shields.io/badge/🌐_中文-README_CN-orange)](README_CN.md)
+[English](README.md) / [Русский](README_RU.md) / 简体中文 / [فارسی](README_FA.md)
 
+[![Version](https://img.shields.io/badge/release-v%201.0.b-green.svg)](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
 ![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)
 ![UI](https://img.shields.io/badge/ui-WinUI%203-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -31,12 +30,20 @@
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) — 路径在设置中指定（也可将 `yt-dlp.exe` 放在程序旁边）
 - [FFmpeg](https://ffmpeg.org/) — 路径在设置中指定（合并/转码时需要）
 
+## 下载
+最新版本：**[v 1.0.b](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)**
+
+- `YtDlpGui.msix` — 安装包（首次运行时信任 `YtDlpGui_TemporaryKey.pfx` 证书）
+- 便携版 EXE — EXE 旁的 `AppX` 文件夹
+
+源代码：[github.com/pastapugovka/yt-dlp-gui](https://github.com/pastapugovka/yt-dlp-gui)
+
 ## 安装
 1. 下载最新版本（`YtDlpGui.msix` 或便携版 EXE）
 2. 首次启动时，在「设置」页指定 `yt-dlp.exe` 和 `ffmpeg.exe` 的路径
 3. 完成 — 即可开始下载
 
-## 下载
+## 下载教程
 1. 在「下载」页粘贴视频或播放列表链接
 2. 可选：设置分辨率、编码格式、音频和额外参数
 3. 对于播放列表，打开播放列表对话框并选择区间/模式
@@ -69,7 +76,7 @@
 - 短链接：`https://youtu.be/...`
 
 ## 从源码构建
-详细的逐步指南和故障排除见 [BUILD.html](BUILD.html)（RU/EN/CN）。
+详细的逐步指南和故障排除见 [BUILD.md](BUILD.md#cn)。
 
 ### 要求
 - Visual Studio 2022 或更高版本
@@ -77,13 +84,14 @@
 - Windows SDK 10.0.26100.0
 
 ### 编译
-1. 执行 `nuget restore`（包 `Microsoft.Windows.CppWinRT` 和 `Microsoft.WindowsAppSDK`）
-2. 打开 `YtDlpGui.sln`
-3. 选择 `Release | x64`
-4. 生成解决方案（Ctrl+Shift+B）
+1. 克隆仓库：`git clone https://github.com/pastapugovka/yt-dlp-gui.git`
+2. 执行 `nuget restore`（包 `Microsoft.Windows.CppWinRT` 和 `Microsoft.WindowsAppSDK`）
+3. 打开 `YtDlpGui.sln`
+4. 选择 `Release | x64`
+5. 生成解决方案（Ctrl+Shift+B）
 
 ## 许可证
-MIT — 可自由使用和修改。
+MIT — 可自由使用和修改。作者：[pastapugovka](https://github.com/pastapugovka)。
 
 ## 致谢
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) — 本工具的核心
