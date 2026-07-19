@@ -7,9 +7,23 @@
 [English](README.md) / [Русский](README_RU.md) / 简体中文 / [فارسی](README_FA.md)
 
 [![Version](https://img.shields.io/badge/release-v%201.0.b-green.svg)](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
-![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)
-![UI](https://img.shields.io/badge/ui-WinUI%203-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=cpp" height="40" alt="cplusplus logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=csharp" height="40" alt="csharp logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=windows" height="40" alt="windows logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=visualstudio" height="40" alt="visualstudio logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=vscode" height="40" alt="vscode logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=git" height="40" alt="git logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=github" height="40" alt="github logo"  />
+</div>
 
 </div>
 
