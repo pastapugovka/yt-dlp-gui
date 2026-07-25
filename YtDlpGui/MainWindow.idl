@@ -1,0 +1,13 @@
+#include "App.idl"
+
+namespace YtDlpGui
+{
+    [default_interface]
+    unsealed runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+        Windows.Foundation.Collections.IObservableVector<Object> NavMenuItems{ get; };
+        void NavView_Loaded(Windows.Foundation.Object sender, Microsoft.UI.Xaml.RoutedEventArgs args);
+        void NavView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args);
+    }
+}

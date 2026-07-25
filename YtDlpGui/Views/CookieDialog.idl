@@ -1,0 +1,8 @@
+namespace YtDlpGui.Views
+{
+    [default_interface]
+    unsealed runtimeclass CookieDialog : Microsoft.UI.Xaml.Controls.ContentDialog
+    {
+        CookieDialog();
+    }
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="AppTitle" xml:space="preserve">
+    <value>YtDlp GUI</value>
+  </data>
+  <data name="NavDownload" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="NavHistory" xml:space="preserve">
+    <value>История</value>
+  </data>
+  <data name="NavSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="NavConsole" xml:space="preserve">
+    <value>Терминал</value>
+  </data>
+  <data name="UrlPlaceholder" xml:space="preserve">
+    <value>Вставьте ссылку на видео...</value>
+  </data>
+  <data name="Analyze" xml:space="preserve">
+    <value>Анализировать</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>СКАЧАТЬ</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Остановить</value>
+  </data>
+  <data name="StatusReady" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="StatusAnalyzing" xml:space="preserve">
+    <value>Анализ...</value>
+  </data>
+  <data name="StatusDownloading" xml:space="preserve">
+    <value>Загрузка...</value>
+  </data>
+  <data name="StatusComplete" xml:space="preserve">
+    <value>Загрузка завершена</value>
+  </data>
+  <data name="StatusError" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="StatusCancelled" xml:space="preserve">
+    <value>Отменено</value>
+  </data>
+  <data name="VideoCodec" xml:space="preserve">
+    <value>Видеокодек</value>
+  </data>
+  <data name="AudioCodec" xml:space="preserve">
+    <value>Аудиокодек</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Разрешение</value>
+  </data>
+  <data name="Bitrate" xml:space="preserve">
+    <value>Битрейт</value>
+  </data>
+  <data name="AudioOnly" xml:space="preserve">
+    <value>Только аудио</value>
+  </data>
+  <data name="VideoOnly" xml:space="preserve">
+    <value>Только видео</value>
+  </data>
+  <data name="SeparateAudio" xml:space="preserve">
+    <value>Аудио отдельным файлом</value>
+  </data>
+  <data name="FileNameTemplate" xml:space="preserve">
+    <value>Шаблон имени файла:</value>
+  </data>
+  <data name="HistoryTitle" xml:space="preserve">
+    <value>История загрузок</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск по названию...</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ConsoleTitle" xml:space="preserve">
+    <value>Встроенный терминал</value>
+  </data>
+  <data name="CookieImport" xml:space="preserve">
+    <value>Импорт кук</value>
+  </data>
+  <data name="PasteFromClipboard" xml:space="preserve">
+    <value>Вставить из буфера обмена</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Сохранить настройки</value>
+  </data>
+  <data name="ClearLog" xml:space="preserve">
+    <value>Очистить лог</value>
+  </data>
+  <data name="OpenDownloadFolder" xml:space="preserve">
+    <value>Открыть папку загрузок</value>
+  </data>
+</root>

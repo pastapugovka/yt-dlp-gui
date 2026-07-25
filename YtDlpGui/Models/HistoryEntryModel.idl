@@ -1,0 +1,28 @@
+import "Windows.UI.Xaml.Data.idl";
+
+namespace YtDlpGui.Models
+{
+    [default_interface]
+    unsealed runtimeclass HistoryEntry : Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        HistoryEntry();
+
+        Int64 Id{ get; set; };
+        String Url{ get; set; };
+        String Title{ get; set; };
+        String Uploader{ get; set; };
+        String FilePath{ get; set; };
+        String FileName{ get; set; };
+        String OutputDir{ get; set; };
+        String Status{ get; set; };
+        String Format{ get; set; };
+        String Quality{ get; set; };
+        Double Duration{ get; set; };
+        Double FileSize{ get; set; };
+        String Platform{ get; set; };
+        String DateCompleted{ get; set; };
+        Boolean IsStarred{ get; set; };
+        String ThumbnailUrl{ get; set; };
+        String ErrorMessage{ get; set; };
+    }
+}

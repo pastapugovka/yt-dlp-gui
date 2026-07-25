@@ -1,0 +1,8 @@
+namespace YtDlpGui
+{
+    [default_interface]
+    unsealed runtimeclass App : Microsoft.UI.Xaml.Application
+    {
+        App();
+    }
+}

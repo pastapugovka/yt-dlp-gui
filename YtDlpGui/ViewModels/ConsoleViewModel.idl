@@ -1,0 +1,20 @@
+import "Windows.UI.Xaml.Data.idl";
+
+namespace YtDlpGui.ViewModels
+{
+    [default_interface]
+    [Windows.UI.Xaml.Data.INotifyPropertyChanged]
+    unsealed runtimeclass ConsoleViewModel : Windows.Foundation.Object
+    {
+        ConsoleViewModel();
+
+        String ConsoleOutput{ get; };
+        String InputText{ get; set; };
+        String CommandHistory{ get; };
+        Boolean IsRunning{ get; };
+
+        Microsoft.UI.Xaml.Input.ICommand ExecuteCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand ClearCommand{ get; };
+        Microsoft.UI.Xaml.Input.ICommand StopCommand{ get; };
+    }
+}
