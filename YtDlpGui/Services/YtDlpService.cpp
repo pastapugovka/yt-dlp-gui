@@ -135,69 +135,114 @@ namespace winrt::YtDlpGui::Services
                                                   const std::wstring& audioBitrate,
                                                   bool audioOnly, bool videoOnly)
     {
-        std::wostringstream fmt;
+        std::wstring fmt;
+        fmt.reserve(128);
 
         if (audioOnly)
         {
-            fmt << L"bestaudio";
+            fmt = L"bestaudio";
             if (audioCodec != L"best")
-                fmt << L"[acodec~=\"" << audioCodec << L"\"]";
+            {
+                fmt += L"[acodec~=\"";
+                fmt += audioCodec;
+                fmt += L"\"]";
+            }
             if (!audioBitrate.empty())
-                fmt << L"[abr~=" << audioBitrate << L"]";
+            {
+                fmt += L"[abr~=";
+                fmt += audioBitrate;
+                fmt += L"]";
+            }
         }
         else if (videoOnly)
         {
-            fmt << L"bestvideo";
+            fmt = L"bestvideo";
             if (videoCodec != L"best")
-                fmt << L"[vcodec~=\"" << videoCodec << L"\"]";
+            {
+                fmt += L"[vcodec~=\"";
+                fmt += videoCodec;
+                fmt += L"\"]";
+            }
             if (resolution != L"best")
-                fmt << L"[height<=" << resolution << L"]";
+            {
+                fmt += L"[height<=";
+                fmt += resolution;
+                fmt += L"]";
+            }
         }
         else
         {
             if (videoCodec != L"best" || resolution != L"best")
             {
-                fmt << L"bestvideo";
+                fmt = L"bestvideo";
                 if (videoCodec != L"best")
-                    fmt << L"[vcodec~=\"" << videoCodec << L"\"]";
+                {
+                    fmt += L"[vcodec~=\"";
+                    fmt += videoCodec;
+                    fmt += L"\"]";
+                }
                 if (resolution != L"best")
-                    fmt << L"[height<=" << resolution << L"]";
-                fmt << L"+bestaudio";
+                {
+                    fmt += L"[height<=";
+                    fmt += resolution;
+                    fmt += L"]";
+                }
+                fmt += L"+bestaudio";
                 if (audioCodec != L"best")
-                    fmt << L"[acodec~=\"" << audioCodec << L"\"]";
+                {
+                    fmt += L"[acodec~=\"";
+                    fmt += audioCodec;
+                    fmt += L"\"]";
+                }
             }
             else
             {
-                fmt << L"bestvideo+bestaudio/best";
+                fmt = L"bestvideo+bestaudio/best";
             }
         }
 
-        return fmt.str();
+        return fmt;
     }
 
     std::wstring YtDlpService::BuildCommonArgs(const AppSettings& settings)
     {
-        std::wostringstream args;
-        args << L" --newline --no-warnings";
+        std::wstring args;
+        args.reserve(256);
+        args = L" --newline --no-warnings";
 
         if (!settings.Proxy.empty())
-            args << L" --proxy " << ProcessRunner::QuoteArg(settings.Proxy);
+        {
+            args += L" --proxy ";
+            args += ProcessRunner::QuoteArg(settings.Proxy);
+        }
         if (!settings.UserAgent.empty())
-            args << L" --user-agent " << ProcessRunner::QuoteArg(settings.UserAgent);
+        {
+            args += L" --user-agent ";
+            args += ProcessRunner::QuoteArg(settings.UserAgent);
+        }
         if (!settings.FfmpegPath.empty())
-            args << L" --ffmpeg-location " << ProcessRunner::QuoteArg(settings.FfmpegPath);
+        {
+            args += L" --ffmpeg-location ";
+            args += ProcessRunner::QuoteArg(settings.FfmpegPath);
+        }
         if (settings.EmbedThumbnail)
-            args << L" --embed-thumbnail";
+            args += L" --embed-thumbnail";
         if (settings.EmbedSubtitles)
-            args << L" --embed-subs";
+            args += L" --embed-subs";
         if (settings.WriteMetadata)
-            args << L" --add-metadata";
+            args += L" --add-metadata";
         if (settings.DownloadSubtitles)
-            args << L" --write-subs --write-auto-subs --sub-langs " << ProcessRunner::QuoteArg(settings.PreferredLanguage);
+        {
+            args += L" --write-subs --write-auto-subs --sub-langs ";
+            args += ProcessRunner::QuoteArg(settings.PreferredLanguage);
+        }
         if (!settings.AdvancedFlags.empty())
-            args << L" " << settings.AdvancedFlags;
+        {
+            args += L" ";
+            args += settings.AdvancedFlags;
+        }
 
-        return args.str();
+        return args;
     }
 
     Models::VideoInfo YtDlpService::ParseVideoInfo(const std::string& json)
@@ -208,35 +253,35 @@ namespace winrt::YtDlpGui::Services
         {
             auto jsonObj = winrt::Windows::Data::Json::JsonObject::Parse(winrt::to_hstring(json));
 
-            if (jsonObj.HasKey(L"title"))
-                info.Title = jsonObj.GetNamedString(L"title");
-            if (jsonObj.HasKey(L"uploader"))
-                info.Uploader = jsonObj.GetNamedString(L"uploader");
-            if (jsonObj.HasKey(L"thumbnail"))
-                info.ThumbnailUrl = jsonObj.GetNamedString(L"thumbnail");
-            if (jsonObj.HasKey(L"description"))
-                info.Description = jsonObj.GetNamedString(L"description");
-            if (jsonObj.HasKey(L"duration"))
-                info.Duration = jsonObj.GetNamedNumber(L"duration");
-            if (jsonObj.HasKey(L"view_count"))
-                info.ViewCount = jsonObj.GetNamedNumber(L"view_count");
-            if (jsonObj.HasKey(L"like_count"))
-                info.LikeCount = jsonObj.GetNamedNumber(L"like_count");
-            if (jsonObj.HasKey(L"is_live"))
-                info.IsLive = jsonObj.GetNamedBoolean(L"is_live");
-            if (jsonObj.HasKey(L"id"))
-                info.Id = jsonObj.GetNamedString(L"id");
-            if (jsonObj.HasKey(L"webpage_url"))
-                info.WebpageUrl = jsonObj.GetNamedString(L"webpage_url");
-            if (jsonObj.HasKey(L"upload_date"))
-                info.UploadDate = jsonObj.GetNamedString(L"upload_date");
+            if (auto val = jsonObj.Lookup(L"title"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.Title = val.GetString();
+            if (auto val = jsonObj.Lookup(L"uploader"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.Uploader = val.GetString();
+            if (auto val = jsonObj.Lookup(L"thumbnail"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.ThumbnailUrl = val.GetString();
+            if (auto val = jsonObj.Lookup(L"description"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.Description = val.GetString();
+            if (auto val = jsonObj.Lookup(L"duration"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                info.Duration = val.GetNumber();
+            if (auto val = jsonObj.Lookup(L"view_count"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                info.ViewCount = val.GetNumber();
+            if (auto val = jsonObj.Lookup(L"like_count"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                info.LikeCount = val.GetNumber();
+            if (auto val = jsonObj.Lookup(L"is_live"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::Boolean)
+                info.IsLive = val.GetBoolean();
+            if (auto val = jsonObj.Lookup(L"id"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.Id = val.GetString();
+            if (auto val = jsonObj.Lookup(L"webpage_url"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.WebpageUrl = val.GetString();
+            if (auto val = jsonObj.Lookup(L"upload_date"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                info.UploadDate = val.GetString();
 
             info.JsonData = winrt::to_hstring(json);
 
             std::string platform;
-            if (jsonObj.HasKey(L"extractor_key"))
+            if (auto val = jsonObj.Lookup(L"extractor_key"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
             {
-                auto extractor = winrt::to_string(jsonObj.GetNamedString(L"extractor_key"));
+                auto extractor = winrt::to_string(val.GetString());
                 if (extractor == "Youtube") platform = "YouTube";
                 else if (extractor == "TikTok") platform = "TikTok";
                 else if (extractor == "Twitch") platform = "Twitch";
@@ -252,42 +297,41 @@ namespace winrt::YtDlpGui::Services
             }
             info.Platform = winrt::to_hstring(platform);
 
-            if (jsonObj.HasKey(L"formats"))
+            if (auto val = jsonObj.Lookup(L"formats"); val.ValueType() == winrt::Windows::Data::Json::JsonValueType::Array)
             {
-                auto formatsArray = jsonObj.GetNamedArray(L"formats");
+                auto formatsArray = val.GetArray();
+                info.Formats.reserve(formatsArray.Size());
                 for (auto const& fmt : formatsArray)
                 {
                     auto fmtObj = fmt.GetObject();
                     Models::FormatInfo fi;
-                    if (fmtObj.HasKey(L"format_id"))
-                        fi.FormatId = fmtObj.GetNamedString(L"format_id");
-                    if (fmtObj.HasKey(L"ext"))
-                        fi.Extension = fmtObj.GetNamedString(L"ext");
-                    if (fmtObj.HasKey(L"resolution"))
-                        fi.Resolution = fmtObj.GetNamedString(L"resolution");
-                    if (fmtObj.HasKey(L"vcodec") && fmtObj.GetNamedString(L"vcodec") != L"none")
+                    if (auto v = fmtObj.Lookup(L"format_id"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                        fi.FormatId = v.GetString();
+                    if (auto v = fmtObj.Lookup(L"ext"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                        fi.Extension = v.GetString();
+                    if (auto v = fmtObj.Lookup(L"resolution"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                        fi.Resolution = v.GetString();
+                    if (auto v = fmtObj.Lookup(L"vcodec"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String && v.GetString() != L"none")
                     {
-                        fi.VideoCodec = fmtObj.GetNamedString(L"vcodec");
+                        fi.VideoCodec = v.GetString();
                         fi.HasVideo = true;
                     }
-                    if (fmtObj.HasKey(L"acodec") && fmtObj.GetNamedString(L"acodec") != L"none")
+                    if (auto v = fmtObj.Lookup(L"acodec"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String && v.GetString() != L"none")
                     {
-                        fi.AudioCodec = fmtObj.GetNamedString(L"acodec");
+                        fi.AudioCodec = v.GetString();
                         fi.HasAudio = true;
                     }
-                    if (fmtObj.HasKey(L"filesize") && fmtObj.GetNamedValue(L"filesize").ValueType() !=
-                        winrt::Windows::Data::Json::JsonValueType::Null)
-                        fi.FileSize = fmtObj.GetNamedNumber(L"filesize");
-                    if (fmtObj.HasKey(L"tbr"))
-                        fi.Bitrate = fmtObj.GetNamedNumber(L"tbr");
-                    if (fmtObj.HasKey(L"fps") && fmtObj.GetNamedValue(L"fps").ValueType() !=
-                        winrt::Windows::Data::Json::JsonValueType::Null)
-                        fi.FPS = static_cast<int>(fmtObj.GetNamedNumber(L"fps"));
-                    if (fmtObj.HasKey(L"format_note"))
-                        fi.FormatNote = fmtObj.GetNamedString(L"format_note");
-                    if (fmtObj.HasKey(L"quality"))
-                        fi.QualityNote = fmtObj.GetNamedString(L"quality");
-                    info.Formats.push_back(fi);
+                    if (auto v = fmtObj.Lookup(L"filesize"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                        fi.FileSize = v.GetNumber();
+                    if (auto v = fmtObj.Lookup(L"tbr"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                        fi.Bitrate = v.GetNumber();
+                    if (auto v = fmtObj.Lookup(L"fps"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                        fi.FPS = static_cast<int>(v.GetNumber());
+                    if (auto v = fmtObj.Lookup(L"format_note"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                        fi.FormatNote = v.GetString();
+                    if (auto v = fmtObj.Lookup(L"quality"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                        fi.QualityNote = v.GetString();
+                    info.Formats.push_back(std::move(fi));
                 }
             }
         }
@@ -313,23 +357,24 @@ namespace winrt::YtDlpGui::Services
         try
         {
             auto jsonArray = winrt::Windows::Data::Json::JsonArray::Parse(winrt::to_hstring(json));
+            items.reserve(jsonArray.Size());
             for (auto const& entry : jsonArray)
             {
                 auto obj = entry.GetObject();
                 Models::PlaylistItem item;
-                if (obj.HasKey(L"url"))
-                    item.Url = obj.GetNamedString(L"url");
-                if (obj.HasKey(L"title"))
-                    item.Title = obj.GetNamedString(L"title");
-                if (obj.HasKey(L"uploader"))
-                    item.Uploader = obj.GetNamedString(L"uploader");
-                if (obj.HasKey(L"duration"))
-                    item.Duration = obj.GetNamedNumber(L"duration");
-                if (obj.HasKey(L"_playlist_index"))
-                    item.Index = static_cast<int>(obj.GetNamedNumber(L"_playlist_index"));
-                if (obj.HasKey(L"thumbnail"))
-                    item.ThumbnailUrl = obj.GetNamedString(L"thumbnail");
-                items.push_back(item);
+                if (auto v = obj.Lookup(L"url"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                    item.Url = v.GetString();
+                if (auto v = obj.Lookup(L"title"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                    item.Title = v.GetString();
+                if (auto v = obj.Lookup(L"uploader"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                    item.Uploader = v.GetString();
+                if (auto v = obj.Lookup(L"duration"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                    item.Duration = v.GetNumber();
+                if (auto v = obj.Lookup(L"_playlist_index"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::Number)
+                    item.Index = static_cast<int>(v.GetNumber());
+                if (auto v = obj.Lookup(L"thumbnail"); v.ValueType() == winrt::Windows::Data::Json::JsonValueType::String)
+                    item.ThumbnailUrl = v.GetString();
+                items.push_back(std::move(item));
             }
         }
         catch (const winrt::hresult_error& ex)

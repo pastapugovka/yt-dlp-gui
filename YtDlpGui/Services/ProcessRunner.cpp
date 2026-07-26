@@ -2,6 +2,8 @@
 #include "ProcessRunner.h"
 #include <sstream>
 #include <thread>
+#include <memory>
+#include <vector>
 
 namespace winrt::YtDlpGui::Services
 {
@@ -10,7 +12,9 @@ namespace winrt::YtDlpGui::Services
         if (arg.empty())
             return L"\"\"";
 
-        std::wstring result = L"\"";
+        std::wstring result;
+        result.reserve(arg.size() + 4);
+        result += L'\"';
         size_t i = 0;
         while (i < arg.size())
         {
@@ -44,7 +48,7 @@ namespace winrt::YtDlpGui::Services
                 ++i;
             }
         }
-        result += L"\"";
+        result += L'\"';
         return result;
     }
 
@@ -90,9 +94,9 @@ namespace winrt::YtDlpGui::Services
         SECURITY_ATTRIBUTES sa{ sizeof(SECURITY_ATTRIBUTES), nullptr, TRUE };
         HANDLE hStdOutWrite = nullptr, hStdErrWrite = nullptr, hStdInRead = nullptr;
         bool success = true;
-        success &= CreatePipe(&state->hStdOutRead, &hStdOutWrite, &sa, 0);
-        success &= CreatePipe(&state->hStdErrRead, &hStdErrWrite, &sa, 0);
-        success &= CreatePipe(&hStdInRead, &state->hStdInWrite, &sa, 0);
+        success &= CreatePipe(&state->hStdOutRead, &hStdOutWrite, &sa, 65536);
+        success &= CreatePipe(&state->hStdErrRead, &hStdErrWrite, &sa, 65536);
+        success &= CreatePipe(&hStdInRead, &state->hStdInWrite, &sa, 65536);
         if (!success)
         {
             if (hStdOutWrite) CloseHandle(hStdOutWrite);
@@ -129,6 +133,9 @@ namespace winrt::YtDlpGui::Services
         if (hStdOutWrite) CloseHandle(hStdOutWrite);
         if (hStdErrWrite) CloseHandle(hStdErrWrite);
         if (hStdInRead) CloseHandle(hStdInRead);
+        if (state->hStdOutRead) CloseHandle(state->hStdOutRead);
+        if (state->hStdErrRead) CloseHandle(state->hStdErrRead);
+        if (state->hStdInWrite) CloseHandle(state->hStdInWrite);
         state->Done = true;
         return nullptr;
     }
@@ -143,11 +150,10 @@ namespace winrt::YtDlpGui::Services
 
     static void DrainPipe(HANDLE hPipe, OutputCallback const& cb)
     {
-        char buffer[4096];
+        static thread_local char buffer[65536];
         DWORD bytesRead;
         while (ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, nullptr) && bytesRead > 0)
         {
-            buffer[bytesRead] = '\0';
             if (cb)
                 cb(std::string(buffer, bytesRead));
         }
@@ -196,12 +202,13 @@ namespace winrt::YtDlpGui::Services
         state->OnComplete = onComplete;
         m_state = state;
 
-        auto param = new std::shared_ptr<RunState>(state);
+        auto statePtr = std::make_shared<std::shared_ptr<RunState>>(state);
         m_hThread = CreateThread(nullptr, 0,
             [](LPVOID param) -> DWORD
             {
-                auto state = *reinterpret_cast<std::shared_ptr<RunState>*>(param);
-                delete reinterpret_cast<std::shared_ptr<RunState>*>(param);
+                auto statePtr = reinterpret_cast<std::shared_ptr<std::shared_ptr<RunState>>*>(param);
+                auto state = *statePtr;
+                delete statePtr;
 
                 std::thread errThread(DrainPipe, state->hStdErrRead, state->OutputCallback);
                 DrainPipe(state->hStdOutRead, state->OutputCallback);
@@ -218,11 +225,10 @@ namespace winrt::YtDlpGui::Services
                     state->OnComplete(static_cast<int>(exitCode));
                 return 0;
             },
-            param, 0, nullptr);
+            new std::shared_ptr<std::shared_ptr<RunState>>(statePtr), 0, nullptr);
 
         if (!m_hThread)
         {
-            delete param;
             state->Done = true;
             if (onComplete) onComplete(-1);
         }

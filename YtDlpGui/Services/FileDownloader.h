@@ -2,7 +2,9 @@
 
 #include <string>
 #include <functional>
+#include <memory>
 #include <winrt/Windows.Storage.h>
+#include <winrt/Windows.Web.Http.h>
 
 namespace winrt::YtDlpGui::Services
 {
@@ -10,6 +12,7 @@ namespace winrt::YtDlpGui::Services
     {
     public:
         FileDownloader();
+        ~FileDownloader();
 
         void DownloadFile(const std::wstring& url, const std::wstring& destPath,
                          std::function<void(bool success, const std::wstring& error)> callback);
@@ -20,5 +23,7 @@ namespace winrt::YtDlpGui::Services
         winrt::Windows::Foundation::IAsyncAction DownloadFileAsync(
             const std::wstring& url, const std::wstring& destPath,
             std::function<void(bool, const std::wstring&)> callback);
+
+        std::unique_ptr<winrt::Windows::Web::Http::HttpClient> m_httpClient;
     };
 }
