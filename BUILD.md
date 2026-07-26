@@ -12,7 +12,7 @@
 
 ## English
 
-Detailed guide from Visual Studio to launch. Internet required to restore NuGet packages.
+Detailed guide from Visual Studio to launch. Internet is required to restore NuGet packages.
 Repository: https://github.com/pastapugovka/yt-dlp-gui · Release: [v 1.0.b](https://github.com/pastapugovka/yt-dlp-gui/releases/tag/v1.0.b)
 
 <details open>
@@ -32,7 +32,7 @@ Repository: https://github.com/pastapugovka/yt-dlp-gui · Release: [v 1.0.b](htt
 ### <a id="en-1"></a>1. Install Visual Studio
 1. Download [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) (Community is fine).
 2. Enable workload:
-   - **Desktop development with C++**
+   - **Desktop development with C++** 
 3. In "Individual components" ensure **Windows 10/11 SDK (10.0.26100.0)** is selected.
 
 ### <a id="en-2"></a>2. Sources
@@ -74,7 +74,7 @@ On the Settings page, set paths to `yt-dlp.exe` and `ffmpeg.exe`. Settings are s
 ### <a id="en-t"></a>Troubleshooting
 | Error | Fix |
 |-------|-----|
-| `MSB4019` (targets not found) | Packages not restored — step 3. If NuGet restores to root folder, delete `packages/` and restore again. |
+| `MSB4019` (targets not found) | Packages not restored — step 3. If NuGet restores to root folder, delete `packages/` and restore again. The `NuGet.Config` should ensure correct path. |
 | `Package.appxmanifest already exists in filter` | This file was deleted — remove any remaining references from `.vcxproj`. |
 | `bootstrap failed` at launch | Windows App SDK Runtime 1.5 missing — install separately. |
 | `YtDlpGui` type not found | Headers not generated yet — rebuild. |
@@ -146,7 +146,7 @@ nuget restore YtDlpGui.sln
 ### <a id="ru-t"></a>Решение проблем
 | Ошибка | Решение |
 |--------|---------|
-| `MSB4019` (не найден targets) | Пакеты не восстановлены — шаг 3. |
+| `MSB4019` (не найден targets) | Пакеты не восстановлены — шаг 3. Если NuGet восстанавливает в корневую папку, удалите `packages/` и восстановите заново. |
 | `Package.appxmanifest уже существует в фильтре` | Этот файл был удалён — уберите оставшиеся ссылки из `.vcxproj`. |
 | `bootstrap failed` при запуске | Не установлен Windows App SDK Runtime 1.5 — поставьте отдельно. |
 | Тип `YtDlpGui` не найден | Заголовки ещё не сгенерированы — пересоберите. |
