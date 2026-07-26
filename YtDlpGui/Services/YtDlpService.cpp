@@ -291,7 +291,18 @@ namespace winrt::YtDlpGui::Services
                 }
             }
         }
-        catch (...) {}
+        catch (const winrt::hresult_error& ex)
+        {
+            if (m_logCallback) m_logCallback(winrt::to_string(ex.message()), 2);
+        }
+        catch (const std::exception& e)
+        {
+            if (m_logCallback) m_logCallback(std::string("Error parsing video info: ") + e.what(), 2);
+        }
+        catch (...)
+        {
+            if (m_logCallback) m_logCallback("Unknown error parsing video info", 2);
+        }
 
         return info;
     }
@@ -321,7 +332,18 @@ namespace winrt::YtDlpGui::Services
                 items.push_back(item);
             }
         }
-        catch (...) {}
+        catch (const winrt::hresult_error& ex)
+        {
+            if (m_logCallback) m_logCallback(winrt::to_string(ex.message()), 2);
+        }
+        catch (const std::exception& e)
+        {
+            if (m_logCallback) m_logCallback(std::string("Error parsing playlist entries: ") + e.what(), 2);
+        }
+        catch (...)
+        {
+            if (m_logCallback) m_logCallback("Unknown error parsing playlist entries", 2);
+        }
         return items;
     }
 

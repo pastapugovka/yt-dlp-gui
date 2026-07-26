@@ -203,8 +203,7 @@ void HistoryDatabase::WriteAtomic(const std::wstring& content)
                 return true;
             }
         }
-            Models::HistoryEntryData e = entry;
-        return AddEntryUnlocked(e);
+        return false;
     }
 
     bool HistoryDatabase::DeleteEntry(int64_t id)
